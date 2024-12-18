@@ -18,15 +18,17 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <div style="background: rgb(175, 182, 218);
-background: radial-gradient(circle, rgba(147, 155, 195, 0.593) 0%, rgb(107, 158, 229) 58%);" class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 ">
+background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(107, 158, 229) 58%);"
+        class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 ">
         <div>
             <a href="/">
                 <img width="250px" src="img/pixelcut-export__1_-removebg-preview.png" alt=""> </a>
         </div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div  class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>
 </body>
+
 </html>
