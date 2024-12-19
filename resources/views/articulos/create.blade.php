@@ -13,10 +13,19 @@
             <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre" name="nombre" type="text" placeholder="Nombre">
         </div>
+        <div class="mb-6">
+            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea name="descripcion" id="descripcion" rows="3" 
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      placeholder="Opcional: ingrese una breve descripción del artículo">{{ old('descripcion', $articulo->descripcion ?? '') }}</textarea>
+        </div>
+        
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_costo">Valor Costo</label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_costo" name="valor_costo" type="number" step="0.01" placeholder="Valor Costo">
         </div>
+       
+        
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_venta">Valor Venta</label>
             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_venta" name="valor_venta" type="number" step="0.01" placeholder="Valor Venta">

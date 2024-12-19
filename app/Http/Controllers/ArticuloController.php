@@ -12,13 +12,32 @@ class ArticuloController extends Controller
     /**
      * Mostrar la lista de artículos.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articulos = Articulo::all();
-        // return response()->json($articulos);
-        return view('articulos.index', compact('articulos'));
+        $query = $request->input('q'); // Obtén el término de búsqueda
+        $articulos = Articulo::when($query, function ($q) use ($query) {
+            $q->where('nombre', 'like', "%{$query}%")
+              ->orWhere('codigo', 'like', "%{$query}%");
+        })->paginate(2); // Pagina los resultados
+    
+        if ($request->ajax()) {
+            return view('articulos.partials.articulos-table', compact('articulos'))->render();
+        }
+    
+        return view('articulos.index', compact('articulos', 'query'));
     }
-
+    
+    public function filter(Request $request)
+    {
+        $query = $request->input('q'); // Obtiene el término de búsqueda
+        $articulos = Articulo::when($query, function ($q) use ($query) {
+            $q->where('nombre', 'like', "%{$query}%")
+              ->orWhere('codigo', 'like', "%{$query}%");
+        })->get();
+    
+        return response()->json($articulos); // Devuelve los resultados en formato JSON
+    }
+    
     /**
      * Mostrar el formulario para crear un nuevo artículo.
      */
@@ -38,17 +57,17 @@ class ArticuloController extends Controller
             'valor_costo' => 'required|numeric',
             'valor_venta' => 'required|numeric',
             'stock' => 'required|integer',
+            'descripcion' => 'nullable|string|max:500',
         ]);
-
+    
         if ($validator->fails()) {
-
-            return redirect()->route('articulos.create')->with('error', 'Artículo no se pudo crear.');
+            return redirect()->route('articulos.create')->withErrors($validator)->withInput();
         }
-
-
+    
         Articulo::create($request->all());
-        return redirect()->route('articulos.index')->with('success', 'Artículo se creó con exito.');
+        return redirect()->route('articulos.index')->with('success', 'Artículo creado con éxito.');
     }
+    
 
 
     /**
