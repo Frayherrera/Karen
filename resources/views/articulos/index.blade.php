@@ -1,18 +1,33 @@
-<!-- Vista: Index (articulos.index) -->
 @extends('layouts.app')
 
 @section('content')
 <div class="container mx-auto px-4">
     <h1 class="text-2xl font-bold text-center my-6">Lista de Artículos</h1>
+
+    <!-- Formulario de búsqueda -->
+    <form method="GET" action="{{ route('articulos.index') }}" class="mb-4" id="search-form">
+        <div class="flex items-center">
+            <input type="text" name="q" id="search-input" value="{{ old('q', $query ?? '') }}" 
+                   placeholder="Buscar artículos..." 
+                   class="border border-gray-300 p-2 w-full rounded-l">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">Buscar</button>
+        </div>
+    </form>
+
     <a href="{{ route('articulos.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Nuevo Artículo</a>
+    
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ session('success') }}</span>
-            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 5.652a1 1 0 00-1.414 0L10 8.586 7.066 5.652a1 1 0 10-1.414 1.414l2.934 2.934-2.934 2.934a1 1 0 101.414 1.414L10 11.414l2.934 2.934a1 1 0 001.414-1.414l-2.934-2.934 2.934-2.934a1 1 0 000-1.414z"/></svg>
-            </span>
         </div>
     @endif
+
+
+    <!-- Tabla de artículos -->
+    <div id="articles-table">
+        @include('articulos.partials.articulos-table', ['articulos' => $articulos])
+
+    
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200">
             <thead class="bg-gray-200">
@@ -58,6 +73,50 @@
                 @endforeach
             </tbody>
         </table>
+
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('search-input');
+        const articlesTable = document.getElementById('articles-table');
+        
+        searchInput.addEventListener('input', function () {
+            const query = searchInput.value;
+
+            // Hacer una petición AJAX al servidor
+            fetch(`{{ route('articulos.index') }}?q=${query}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                articlesTable.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al realizar la búsqueda:', error);
+            });
+        });
+    });
+</script>
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`delete-form-${id}`).submit();
+            }
+        })
+    }
+</script>
 @endsection
