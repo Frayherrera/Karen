@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
-use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -15,7 +13,6 @@ class ArticuloController extends Controller
     public function index()
     {
         $articulos = Articulo::all();
-        // return response()->json($articulos);
         return view('articulos.index', compact('articulos'));
     }
 
@@ -41,10 +38,14 @@ class ArticuloController extends Controller
         ]);
 
         if ($validator->fails()) {
-
-            return redirect()->route('articulos.create')->with('error', 'Artículo no se pudo crear.');
-        }
-
+            $data = [
+                'message' => 'Error en la validacion de los datos',
+                'errors' => $validator->errors(),
+                'status' => 400   
+            ];
+            
+            return response()->json($data, 400);
+        };
 
         Articulo::create($request->all());
         return redirect()->route('articulos.index')->with('success', 'Artículo se creó con exito.');
