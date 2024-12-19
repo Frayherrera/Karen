@@ -26,6 +26,7 @@
             <th>Valor Unitario</th>
             <th>Descuento</th>
             <th>Tipo</th>
+            <th>N° Cuotas</th>
             <th>Utilidad</th>
             <th>Total</th>
           
@@ -42,8 +43,9 @@
                 <td>{{ $venta->cantidad }}</td>
                 <td>${{ number_format($venta->valor_unitario, 2) }}</td>
                 <td>${{ number_format($venta->descuento, 2) }}</td>
-
                 <td>{{ ucfirst($venta->tipo) }}</td>
+                <td>{{ number_format($venta->dias_credito) }}</td>
+
                 <td>${{ number_format($venta->utilidad, 2) }}</td>
                 <td>${{ number_format($venta->valor_total, 2) }}</td>
 
