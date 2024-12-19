@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
-use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -15,8 +13,7 @@ class ArticuloController extends Controller
     public function index()
     {
         $articulos = Articulo::all();
-        return response()->json($articulos);
-        // return view('articulos.index', compact('articulos'));
+        return view('articulos.index', compact('articulos'));
     }
 
     /**
@@ -32,9 +29,7 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validator = Validator::make($request->all(),
-        [
+        $request->validate([
             'codigo' => 'required|unique:articulos,codigo',
             'nombre' => 'required',
             'valor_costo' => 'required|numeric',
@@ -42,26 +37,9 @@ class ArticuloController extends Controller
             'stock' => 'required|integer',
         ]);
 
-        if ($validator->fails()) {
-            $data = [
-                'message' => 'Error en la validacion de los datos',
-                'errors' => $validator->errors(),
-                'status' => 400   
-            ];
-            
-            return response()->json($data, 400);
-        };
-
         Articulo::create($request->all());
 
-        $data = [
-            'message' => 'Exito al crear articulo',
-            'status' => 201  
-        ];
-        return response()->json($data, 201);
-
-
-        // return redirect()->route('articulos.index')->with('success', 'Artículo creado exitosamente.');
+        return redirect()->route('articulos.index')->with('success', 'Artículo creado exitosamente.');
     }
 
     /**
