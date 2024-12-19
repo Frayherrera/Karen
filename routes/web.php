@@ -29,3 +29,12 @@ Route::get('/articulos/filter', [ArticuloController::class, 'filter'])->name('ar
 
 // Rutas de autenticación generadas automáticamente
 require __DIR__.'/auth.php';
+
+use App\Http\Controllers\EntradaController;
+use App\Http\Controllers\VentaController;
+
+Route::post('/entradas', [EntradaController::class, 'store'])->name('entradas.store');
+// Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+Route::get('/entrada', function () {
+    return view('entrada');
+})->name('entrada');
