@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -13,6 +15,7 @@ class ArticuloController extends Controller
     public function index()
     {
         $articulos = Articulo::all();
+        // return response()->json($articulos);
         return view('articulos.index', compact('articulos'));
     }
 
@@ -29,7 +32,7 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:articulos,codigo',
             'nombre' => 'required',
             'valor_costo' => 'required|numeric',
@@ -37,10 +40,16 @@ class ArticuloController extends Controller
             'stock' => 'required|integer',
         ]);
 
-        Articulo::create($request->all());
+        if ($validator->fails()) {
 
-        return redirect()->route('articulos.index')->with('success', 'Artículo creado exitosamente.');
+            return redirect()->route('articulos.create')->with('error', 'Artículo no se pudo crear.');
+        }
+
+
+        Articulo::create($request->all());
+        return redirect()->route('articulos.index')->with('success', 'Artículo se creó con exito.');
     }
+
 
     /**
      * Mostrar un artículo específico.
