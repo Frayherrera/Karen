@@ -23,9 +23,10 @@ class ArticuloController extends Controller
     
         if ($request->ajax()) {
             return view('articulos.partials.articulos-table', compact('articulos'))->render();
+
         }
-    
         return view('articulos.index', compact('articulos', 'query'));
+    
     }
     
     public function filter(Request $request)
