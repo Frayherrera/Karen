@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Venta;
 use App\Models\Articulo;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class VentaController extends Controller
@@ -24,7 +25,10 @@ class VentaController extends Controller
             return redirect()->back()->withErrors(['error' => 'Stock insuficiente.']);
         }
 
-        $valor_total = $request->cantidad * $request->valor_unitario;
+        $utilidad = (($request->valor_unitario - $articulo->valor_costo) * $request->cantidad )- $request->descuento;
+
+
+        $valor_total = $request->cantidad * $request->valor_unitario - $request->descuento;
         $venta = Venta::create([
             'codigo' => $request->codigo,
             'cantidad' => $request->cantidad,
@@ -34,6 +38,8 @@ class VentaController extends Controller
             'tipo' => $request->tipo,
             'dias_credito' => $request->tipo === 'credito' ? $request->dias_credito : null,
             'fecha_venta' => now(),
+            'utilidad' => $utilidad,
+
         ]);
 
         // Actualizar stock del artículo
@@ -41,5 +47,20 @@ class VentaController extends Controller
         $articulo->save();
 
         return redirect()->back()->with('success', 'Venta registrada exitosamente.');
+    }
+    public function generarTicket($id)
+    {
+        $venta = Venta::findOrFail($id);
+        $articulo = Articulo::where('codigo', $venta->codigo)->first();
+
+        $pdf = Pdf::loadView('tickets.ticket', compact('venta', 'articulo'));
+
+        // Descargar el ticket como PDF
+        return $pdf->stream('ticket-venta-' . $venta->id . '.pdf');
+    }
+    public function index()
+    {
+        $ventas = Venta::orderBy('fecha_venta', 'desc')->paginate(10); // Ordenar y paginar
+        return view('ventas.index', compact('ventas'));
     }
 }

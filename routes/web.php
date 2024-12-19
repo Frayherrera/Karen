@@ -37,9 +37,13 @@ Route::post('/entradas', [EntradaController::class, 'store'])->name('entradas.st
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
 
 Route::get('/entrada', function () {
-    return view('entrada');
+    return view('entradas.create');
 })->name('entrada');
 
 Route::get('/salida', function () {
-    return view('salida');
+    return view('ventas.create');
 })->name('salida');
+
+Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+
+Route::get('/ventas/{id}/ticket', [VentaController::class, 'generarTicket'])->name('ventas.ticket');

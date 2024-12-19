@@ -23,6 +23,7 @@ class Venta extends Model
         'tipo',           // Tipo de venta (contado o crédito)
         'dias_credito',   // Días de crédito (opcional)
         'fecha_venta',    // Fecha de la venta
+        'utilidad'
     ];
 
     /**

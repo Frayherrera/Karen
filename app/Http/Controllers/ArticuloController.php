@@ -19,7 +19,7 @@ class ArticuloController extends Controller
         $articulos = Articulo::when($query, function ($q) use ($query) {
             $q->where('nombre', 'like', "%{$query}%")
               ->orWhere('codigo', 'like', "%{$query}%");
-        })->paginate(2); // Pagina los resultados
+        })->paginate(10); // Pagina los resultados
     
         if ($request->ajax()) {
             return view('articulos.partials.articulos-table', compact('articulos'))->render();
