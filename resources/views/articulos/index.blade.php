@@ -13,6 +13,7 @@
             </span>
         </div>
     @endif
+    
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200">
             <thead class="bg-gray-200">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Articulo;
 use Illuminate\Support\Facades\Validator;
 
+
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -33,7 +34,7 @@ class ArticuloController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'codigo' => 'required|unique:articulos,codigo',
+            'codigo' => 'required|unique:articulos,codigo|max:10',
             'nombre' => 'required',
             'valor_costo' => 'required|numeric',
             'valor_venta' => 'required|numeric',
@@ -41,8 +42,7 @@ class ArticuloController extends Controller
         ]);
 
         if ($validator->fails()) {
-
-            return redirect()->route('articulos.create')->with('error', 'Artículo no se pudo crear.');
+            return redirect()->route('articulos.create')->withErrors($validator)->withInput();
         }
 
 
