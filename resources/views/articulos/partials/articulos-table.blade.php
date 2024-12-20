@@ -9,6 +9,7 @@
                 <tr>
                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Código</th>
                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nombre</th>
+                    <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Categoria</th>
                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Valor Costo</th>
                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Valor Venta</th>
                     <th class="py-3 px-6 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Stock</th>
@@ -21,6 +22,7 @@
                     <tr class="hover:bg-gray-100">
                         <td class="py-4 px-6">{{ $articulo->codigo }}</td>
                         <td class="py-4 px-6">{{ $articulo->nombre }}</td>
+                        <td class="py-4 px-6">{{ $articulo->categoria->nombre ?? 'Sin categoría' }}</td>
                         <td class="py-4 px-6">${{ number_format($articulo->valor_costo, 2) }}</td>
                         <td class="py-4 px-6">${{ number_format($articulo->valor_venta, 2) }}</td>
                         <td class="py-4 px-6">{{ $articulo->stock }}</td>

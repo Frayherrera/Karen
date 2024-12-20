@@ -7,11 +7,11 @@
         @csrf
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="codigo">Código</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="codigo" name="codigo" type="text" placeholder="Código">
+            <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="codigo" name="codigo" type="text" placeholder="Código">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre" name="nombre" type="text" placeholder="Nombre">
+            <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre" name="nombre" type="text" placeholder="Nombre">
         </div>
         <div class="mb-6">
             <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
@@ -22,18 +22,30 @@
         
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_costo">Valor Costo</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_costo" name="valor_costo" type="number" step="0.01" placeholder="Valor Costo">
+            <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_costo" name="valor_costo" type="number" step="0.01" placeholder="Valor Costo">
         </div>
-       
         
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_venta">Valor Venta</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_venta" name="valor_venta" type="number" step="0.01" placeholder="Valor Venta">
+            <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="valor_venta" name="valor_venta" type="number" step="0.01" placeholder="Valor Venta">
         </div>
+        
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">Stock</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="stock" name="stock" type="number" placeholder="Stock">
+            <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="stock" name="stock" type="number" placeholder="Stock">
         </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">Categoría</label>
+            <select required name="categoria_id" id="categoria_id" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="" disabled selected>Selecciona una categoría</option>
+                @foreach($categorias as $categoria)
+                    <option required value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="flex items-center justify-between">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Guardar</button>
             <a href="{{ route('articulos.index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Cancelar</a>

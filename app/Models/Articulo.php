@@ -13,6 +13,7 @@ class Articulo extends Model
         'valor_costo',
         'valor_venta',
         'stock',
+        'categoria_id',
     ];
 
     public function getPorcentajeUtilidadAttribute()
@@ -28,4 +29,9 @@ class Articulo extends Model
     {
         return $this->hasMany(Venta::class, 'codigo', 'codigo');
     }
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -19,6 +20,7 @@ class ArticuloController extends Controller
         $articulos = Articulo::when($query, function ($q) use ($query) {
             $q->where('nombre', 'like', "%{$query}%")
               ->orWhere('codigo', 'like', "%{$query}%");
+              
         })->paginate(10); // Pagina los resultados
     
         if ($request->ajax()) {
@@ -44,8 +46,11 @@ class ArticuloController extends Controller
      * Mostrar el formulario para crear un nuevo artículo.
      */
     public function create()
+    
     {
-        return view('articulos.create');
+        
+        $categorias = Categoria::all(); // Obtén todas las categorías
+        return view('articulos.create', compact('categorias'));
     }
 
     /**
@@ -55,7 +60,7 @@ class ArticuloController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:articulos,codigo|max:10',
-            'nombre' => 'required',
+            'nombre' => 'required|max:15',
             'valor_costo' => 'required|numeric',
             'valor_venta' => 'required|numeric',
             'stock' => 'required|integer',
@@ -85,7 +90,8 @@ class ArticuloController extends Controller
      */
     public function edit(Articulo $articulo)
     {
-        return view('articulos.edit', compact('articulo'));
+       $categorias = Categoria::all(); // Obtén todas las categorías
+        return view('articulos.edit', compact('categorias', 'articulo'));
     }
 
     /**
@@ -93,13 +99,18 @@ class ArticuloController extends Controller
      */
     public function update(Request $request, Articulo $articulo)
     {
-        $request->validate([
+        
+        $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:articulos,codigo,' . $articulo->id,
-            'nombre' => 'required',
+            'nombre' => 'required|max:15',
             'valor_costo' => 'required|numeric',
             'valor_venta' => 'required|numeric',
             'stock' => 'required|integer',
+            'categoria' => 'required',
         ]);
+        if ($validator->fails()) {
+            return redirect()->route('articulos.index')->withErrors($validator)->withInput();
+        }
 
         $articulo->update($request->all());
 
