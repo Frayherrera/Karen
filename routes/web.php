@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\CategoriaController;
 
 // Redirección a la vista de login
 Route::get('/', function () {
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/salida', function () {
         return view('ventas.create');
     })->name('salida');
+
+    // Ruta para almacenar una nueva categoría
+    Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
 });
 
 // Rutas de autenticación generadas automáticamente

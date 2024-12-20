@@ -37,13 +37,18 @@
 
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">Categoría</label>
-            <select required name="categoria_id" id="categoria_id" 
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="" disabled selected>Selecciona una categoría</option>
-                @foreach($categorias as $categoria)
-                    <option required value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                @endforeach
-            </select>
+            <div class="flex">
+                <select required name="categoria_id" id="categoria_id" 
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    @foreach($categorias as $categoria)
+                        <option required value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                    @endforeach
+                </select>
+                <button type="button" class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()">
+                    Agregar Categoría
+                </button>
+            </div>
         </div>
 
         <div class="flex items-center justify-between">
@@ -52,4 +57,40 @@
         </div>
     </form>
 </div>
+
+<!-- Modal para agregar nueva categoría -->
+<div id="addCategoryModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 class="text-lg font-bold mb-4">Agregar Nueva Categoría</h2>
+        <form id="addCategoryForm" action="{{ route('categorias.store') }}" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
+                <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nombre" name="nombre" type="text" placeholder="Nombre de la categoría">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="descripcion">Descripción</label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="descripcion" name="descripcion" placeholder="Descripción de la categoría"></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Guardar
+                </button>
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onclick="document.getElementById('addCategoryModal').style.display='none'">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById('addCategoryModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('addCategoryModal').classList.add('hidden');
+    }
+</script>
 @endsection
