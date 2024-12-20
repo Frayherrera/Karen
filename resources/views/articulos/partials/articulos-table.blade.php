@@ -37,6 +37,11 @@
                             <div class="flex space-x-2">
                                 <a href="{{ route('articulos.show', $articulo->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs">Ver</a>
                                 <a href="{{ route('articulos.edit', $articulo->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">Editar</a>
+                                <button 
+                                    onclick="openModal('{{ $articulo->codigo }}', '{{ $articulo->nombre }}')" 
+                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs">
+                                    Agregar Stock
+                                </button>
                                 <form id="delete-form-{{ $articulo->id }}" action="{{ route('articulos.destroy', $articulo->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
