@@ -47,10 +47,7 @@
                 <label for="cantidad" class="block text-gray-700 font-bold">Cantidad</label>
                 <input type="number" name="cantidad" id="cantidad" class="border border-gray-300 p-2 w-full rounded" required>
             </div>
-            <div class="mb-4">
-                <label for="valor_costo" class="block text-gray-700 font-bold">Costo Unitario</label>
-                <input type="number" name="valor_costo" id="valor_costo" class="border border-gray-300 p-2 w-full rounded" step="0.01" required>
-            </div>
+         
             <div class="flex justify-end space-x-2">
                 <button type="button" onclick="closeModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancelar</button>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar</button>

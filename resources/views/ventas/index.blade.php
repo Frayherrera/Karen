@@ -45,7 +45,6 @@
                 <td>${{ number_format($venta->descuento, 2) }}</td>
                 <td>{{ ucfirst($venta->tipo) }}</td>
                 <td>{{ number_format($venta->dias_credito) }}</td>
-
                 <td>${{ number_format($venta->utilidad, 2) }}</td>
                 <td>${{ number_format($venta->valor_total, 2) }}</td>
 

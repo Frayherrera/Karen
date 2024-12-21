@@ -19,36 +19,33 @@ class ArticuloController extends Controller
         $query = $request->input('q'); // Obtén el término de búsqueda
         $articulos = Articulo::when($query, function ($q) use ($query) {
             $q->where('nombre', 'like', "%{$query}%")
-              ->orWhere('codigo', 'like', "%{$query}%");
-              
+                ->orWhere('codigo', 'like', "%{$query}%");
         })->paginate(10); // Pagina los resultados
-    
+
         if ($request->ajax()) {
             return view('articulos.partials.articulos-table', compact('articulos'))->render();
-
         }
         return view('articulos.index', compact('articulos', 'query'));
-    
     }
-    
+
     public function filter(Request $request)
     {
         $query = $request->input('q'); // Obtiene el término de búsqueda
         $articulos = Articulo::when($query, function ($q) use ($query) {
             $q->where('nombre', 'like', "%{$query}%")
-              ->orWhere('codigo', 'like', "%{$query}%");
+                ->orWhere('codigo', 'like', "%{$query}%");
         })->get();
-    
+
         return response()->json($articulos); // Devuelve los resultados en formato JSON
     }
-    
+
     /**
      * Mostrar el formulario para crear un nuevo artículo.
      */
     public function create()
-    
+
     {
-        
+
         $categorias = Categoria::all(); // Obtén todas las categorías
         return view('articulos.create', compact('categorias'));
     }
@@ -66,15 +63,15 @@ class ArticuloController extends Controller
             'stock' => 'required|integer',
             'descripcion' => 'nullable|string|max:500',
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->route('articulos.create')->withErrors($validator)->withInput();
         }
-    
+
         Articulo::create($request->all());
         return redirect()->route('articulos.index')->with('success', 'Artículo creado con éxito.');
     }
-    
+
 
 
     /**
@@ -88,35 +85,44 @@ class ArticuloController extends Controller
     /**
      * Mostrar el formulario para editar un artículo.
      */
-    public function edit(Articulo $articulo)
+    public function edit($id)
     {
-       $categorias = Categoria::all(); // Obtén todas las categorías
-        return view('articulos.edit', compact('categorias', 'articulo'));
+        $articulo = Articulo::findOrFail($id);
+        $categorias = Categoria::all(); // Suponiendo que tienes un modelo Categoría
+        return view('articulos.edit', compact('articulo', 'categorias'));
     }
 
-    /**
-     * Actualizar un artículo en la base de datos.
-     */
-    public function update(Request $request, Articulo $articulo)
+
+
+    public function update(Request $request, $id)
     {
-        
-        $validator = Validator::make($request->all(), [
-            'codigo' => 'required|unique:articulos,codigo,' . $articulo->id,
-            'nombre' => 'required|max:15',
-            'valor_costo' => 'required|numeric',
-            'valor_venta' => 'required|numeric',
-            'stock' => 'required|integer',
-            'categoria' => 'required',
+        $request->validate([
+            'codigo' => 'required|unique:articulos,codigo,' . $id, // Permite que el código sea único excepto para el actual.
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'valor_costo' => 'required|numeric|min:0',
+            'valor_venta' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'categoria_id' => 'nullable|exists:categorias,id', // Verifica si la categoría existe.
         ]);
-        if ($validator->fails()) {
-            return redirect()->route('articulos.index')->withErrors($validator)->withInput();
-        }
-
-        $articulo->update($request->all());
-
+    
+        // Encuentra el artículo por ID
+        $articulo = Articulo::findOrFail($id);
+    
+        // Actualiza los datos del artículo
+        $articulo->update([
+            'codigo' => $request->codigo,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'valor_costo' => $request->valor_costo,
+            'valor_venta' => $request->valor_venta,
+            'stock' => $request->stock,
+            'categoria_id' => $request->categoria_id,
+        ]);
+    
         return redirect()->route('articulos.index')->with('success', 'Artículo actualizado exitosamente.');
     }
-
+    
     /**
      * Eliminar un artículo de la base de datos.
      */
