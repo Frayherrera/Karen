@@ -12,6 +12,8 @@
     @endif
 
     <!-- Botón para registrar una nueva entrada -->
+    <a href="{{ url('/articulos') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Atras</a>
+
     <a href="{{ route('entradas.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Registrar Nueva Entrada</a>
 
     <!-- Tabla de entradas -->

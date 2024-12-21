@@ -29,13 +29,13 @@
             </div>
             <div class="mb-4">
                 <label for="nombre" class="block text-sm font-medium text-gray-700">Categoria</label>
-                <select required name="categoria_id" id="categoria_id" 
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <option value="" disabled selected>Selecciona una categoría</option>
-            @foreach($categorias as $categoria)
-                <option required value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-            @endforeach
-        </select>
+                <select required name="categoria_id" id="categoria_id"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    @foreach ($categorias as $categoria)
+                        <option required value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-6">
                 <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
