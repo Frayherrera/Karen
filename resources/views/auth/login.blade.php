@@ -1,4 +1,3 @@
-<x-guest-layout>
     <div class="container">
         <div class="heading">Iniciar Sesión</div>
         <form class="form" method="POST" action="{{ route('login') }}">
@@ -9,7 +8,6 @@
     
         </form>
     </div>
-</x-guest-layout>
 
 
 <style>
