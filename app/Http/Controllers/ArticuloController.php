@@ -73,7 +73,20 @@ class ArticuloController extends Controller
     }
 
 
-
+    public function getArticulo(Request $request)
+    {
+        $articulo = Articulo::where('codigo', $request->codigo)->first();
+    
+        if ($articulo) {
+            return response()->json([
+                'success' => true,
+                'nombre' => $articulo->nombre,
+            ]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Artículo no encontrado.']);
+    }
+    
     /**
      * Mostrar un artículo específico.
      */

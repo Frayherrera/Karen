@@ -11,15 +11,45 @@
         </ul>
     </div>
 @endif
-
+<div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold text-center my-6">Registrar Venta</h1>
+    
+    <!-- Tabla de Artículos -->
+    <div class="mb-6">
+        <h2 class="text-xl font-bold mb-4">Artículos Disponibles</h2>
+        <table class="min-w-full border-collapse border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border px-4 py-2 text-left">Código</th>
+                    <th class="border px-4 py-2 text-left">Nombre</th>
+                    <th class="border px-4 py-2 text-left">Stock</th>
+                    <th class="border px-4 py-2 text-left">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($articulos as $articulo)
+                <tr>
+                    <td class="border px-4 py-2">{{ $articulo->codigo }}</td>
+                    <td class="border px-4 py-2">{{ $articulo->nombre }}</td>
+                    <td class="border px-4 py-2">{{ $articulo->stock }}</td>
+                    <td class="border px-4 py-2">{{ $articulo->valor_venta }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 <div class="container mx-auto px-4">
     <h1 class="text-2xl font-bold text-center my-6">Nueva venta</h1>
     <form action="{{ route('ventas.store') }}" method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         @csrf
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="codigo">Código</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="codigo" required>
+            <input id="codigo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="codigo" required>
+        </div>
 
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre_articulo">Nombre del Artículo</label>
+            <input id="nombre_articulo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="nombre_articulo" readonly>
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Cantidad</label>
@@ -79,17 +109,36 @@
     }
 }
 </script>
+<script>
+    document.getElementById('codigo').addEventListener('input', function () {
+        const codigo = this.value;
 
+        if (codigo) {
+            fetch("{{ route('articulos.get') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ codigo: codigo }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const nombreInput = document.getElementById('nombre_articulo');
+                if (data.success) {
+                    nombreInput.value = data.nombre;
+                } else {
+                    nombreInput.value = 'Artículo no encontrado';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            document.getElementById('nombre_articulo').value = '';
+        }
+    });
+</script>
 @endsection
 
 
 
-<form action="{{ route('ventas.store') }}" method="POST">
-    @csrf
-    
-  
-    
-   
-    
-    <button type="submit"></button>
-</form>
+

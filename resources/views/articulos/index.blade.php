@@ -56,8 +56,69 @@
     </div>
 </div>
 
-{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+{{-- modal de venta --}}
+<div id="ventaModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 class="text-lg font-bold mb-4">Registrar Venta</h2>
+        <form id="ventaForm" method="POST" action="{{ route('ventas.store') }}">
+            @csrf
+            <input type="hidden" name="codigo" id="codigoVentaInput">
+
+            <div class="mb-4">
+                <label for="nombre" class="block text-gray-700 font-bold">Artículo</label>
+                <input type="text" id="nombreVentaInput" class="border border-gray-300 p-2 w-full rounded bg-gray-100" disabled>
+            </div>
+
+            <div class="mb-4">
+                <label for="cantidad" class="block text-gray-700 font-bold">Cantidad</label>
+                <input type="number" name="cantidad" id="cantidadVenta" class="border border-gray-300 p-2 w-full rounded" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="valor_unitario" class="block text-gray-700 font-bold">Valor Unitario</label>
+                <input type="number" name="valor_unitario" id="valorUnitarioVenta" class="border border-gray-300 p-2 w-full rounded" step="0.01" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="descuento" class="block text-gray-700 font-bold">Descuento</label>
+                <input type="number" name="descuento" id="descuentoVenta" class="border border-gray-300 p-2 w-full rounded" step="0.01">
+            </div>
+
+            <div class="mb-4">
+                <label for="tipo" class="block text-gray-700 font-bold">Tipo de Venta</label>
+                <select name="tipo" id="tipoVenta" class="border border-gray-300 p-2 w-full rounded" required onchange="toggleCreditoOptions(this.value)">
+                    <option value="contado">Contado</option>
+                    <option value="credito">Crédito</option>
+                </select>
+            </div>
+
+            <div id="diasCreditoContainer" class="mb-4 hidden">
+                <label for="dias_credito" class="block text-gray-700 font-bold">Días de Crédito</label>
+                <input type="number" name="dias_credito" id="diasCredito" class="border border-gray-300 p-2 w-full rounded">
+            </div>
+
+            <div class="mb-4" id="credito-fields" style="display: none;">
+                <input class="border border-gray-300 p-2 w-full rounded" type="number" name="dias_credito" placeholder="Días de crédito">
+                <label for="porcentaje_credito">Porcentaje adicional:</label>
+                <select class="border border-gray-300 p-2 w-full rounded" name="porcentaje_credito" id="porcentaje_credito">
+                    <option value="5">5%</option>
+                    <option value="10">10%</option>
+                    <option value="15">15%</option>
+                    <option value="20">20%</option>
+                </select>
+            </div>
+
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeVentaModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancelar</button>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <script>
+    
     document.addEventListener('DOMContentLoaded', () => {
         const searchInput = document.getElementById('search-input');
         const articlesTable = document.getElementById('articles-table');
@@ -107,5 +168,30 @@
             }
         })
     }
+</script>
+<script>
+    function openVentaModal(codigo, nombre) {
+    document.getElementById('codigoVentaInput').value = codigo;
+    document.getElementById('nombreVentaInput').value = nombre;
+    document.getElementById('ventaModal').classList.remove('hidden');
+}
+
+function closeVentaModal() {
+    document.getElementById('ventaModal').classList.add('hidden');
+}
+
+function toggleCreditoOptions(tipo) {
+    const creditoFields = document.getElementById('credito-fields');
+
+    if (tipo === 'credito') {
+        creditoFields.style.display = 'block';
+
+    } else {
+        creditoFields.style.display = 'none';
+
+    }
+}
+
+
 </script>
 @endsection

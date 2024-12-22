@@ -10,6 +10,20 @@ use Illuminate\Support\Facades\Validator;
 
 class VentaController extends Controller
 {
+    public function getArticulo(Request $request)
+    {
+        $articulo = Articulo::where('codigo', $request->codigo)->first();
+
+        if ($articulo) {
+            return response()->json([
+                'success' => true,
+                'nombre' => $articulo->nombre,
+            ]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Artículo no encontrado.']);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -25,31 +39,31 @@ class VentaController extends Controller
         if ($validator->fails()) {
             return redirect()->route('salida')->withErrors($validator)->withInput();
         }
-        
-    
+
+
         $articulo = Articulo::where('codigo', $request->codigo)->first();
-    
+
         if ($articulo->stock < $request->cantidad) {
             return redirect()->back()->withErrors(['error' => 'Stock insuficiente.']);
         }
-    
+
         // Calcular el valor total
         $valor_total = $request->cantidad * $request->valor_unitario;
-    
+
         // Agregar porcentaje adicional si la venta es a crédito
         if ($request->tipo === 'credito') {
             $porcentaje_adicional = ($valor_total * $request->porcentaje_credito) / 100;
             $valor_total += $porcentaje_adicional;
         }
-    
+
         // Restar descuento si se aplica
         $valor_total -= $request->descuento ?? 0;
-    
+
         // Calcular utilidad
-        $utilidad = (($request->valor_unitario - $articulo->valor_costo) * $request->cantidad) 
-                    + ($request->tipo === 'credito' ? $porcentaje_adicional ?? 0 : 0) 
-                    - $request->descuento;
-    
+        $utilidad = (($request->valor_unitario - $articulo->valor_costo) * $request->cantidad)
+            + ($request->tipo === 'credito' ? $porcentaje_adicional ?? 0 : 0)
+            - $request->descuento;
+
         // Crear la venta
         $venta = Venta::create([
             'codigo' => $request->codigo,
@@ -62,14 +76,13 @@ class VentaController extends Controller
             'fecha_venta' => now(),
             'utilidad' => $utilidad,
         ]);
-    
+
         // Actualizar stock del artículo
         $articulo->stock -= $request->cantidad;
         $articulo->save();
-        return redirect()->route('salida')->with('success', 'Venta exitosa.');
-
+        return redirect()->route('ventas.index')->with('success', 'Venta exitosa.');
     }
-    
+
     public function generarTicket($id)
     {
         $venta = Venta::findOrFail($id);
@@ -82,7 +95,7 @@ class VentaController extends Controller
     }
     public function index()
     {
-        $ventas = Venta::orderBy('fecha_venta', 'desc')->paginate(10); // Ordenar y paginar
+        $ventas = Venta::orderBy('fecha_venta', 'desc')->paginate(9); // Ordenar y paginar
         return view('ventas.index', compact('ventas'));
     }
 }

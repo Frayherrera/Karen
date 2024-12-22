@@ -11,6 +11,11 @@
 </head>
 @section('content')
 <body>
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+    @endif
 <div class="container mt-5">
     <h1 class="text-2xl font-bold text-center my-6">Lista de Ventas</h1>
     <a href="{{ url('/articulos') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Atras</a>

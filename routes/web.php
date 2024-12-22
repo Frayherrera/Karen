@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\EntradaController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\CategoriaController;
+use App\Models\Articulo;
 
 // Redirección a la vista de login
 Route::get('/', function () {
@@ -41,11 +42,18 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para crear una salida (venta)
     Route::get('/salida', function () {
-        return view('ventas.create');
+  
+    $articulos = Articulo::all(); // Obtén todos los artículos
+    return view('ventas.create', compact('articulos'));
     })->name('salida');
 
     // Ruta para almacenar una nueva categoría
     Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+
+    Route::post('/articulos/get', [ArticuloController::class, 'getArticulo'])->name('articulos.get');
+
+
+
 });
 
 // Rutas de autenticación generadas automáticamente
