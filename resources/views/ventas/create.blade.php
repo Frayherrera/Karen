@@ -12,32 +12,7 @@
     </div>
 @endif
 <div class="container mx-auto px-4">
-    <h1 class="text-2xl font-bold text-center my-6">Registrar Venta</h1>
-    
-    <!-- Tabla de Artículos -->
-    <div class="mb-6">
-        <h2 class="text-xl font-bold mb-4">Artículos Disponibles</h2>
-        <table class="min-w-full border-collapse border border-gray-200">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="border px-4 py-2 text-left">Código</th>
-                    <th class="border px-4 py-2 text-left">Nombre</th>
-                    <th class="border px-4 py-2 text-left">Stock</th>
-                    <th class="border px-4 py-2 text-left">Precio</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($articulos as $articulo)
-                <tr>
-                    <td class="border px-4 py-2">{{ $articulo->codigo }}</td>
-                    <td class="border px-4 py-2">{{ $articulo->nombre }}</td>
-                    <td class="border px-4 py-2">{{ $articulo->stock }}</td>
-                    <td class="border px-4 py-2">{{ $articulo->valor_venta }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+   
 <div class="container mx-auto px-4">
     <h1 class="text-2xl font-bold text-center my-6">Nueva venta</h1>
     <form action="{{ route('ventas.store') }}" method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -79,16 +54,16 @@
        
 
        
-        <div class="mb-4" id="credito-fields" style="display: none;">
-            <input type="number" name="dias_credito" placeholder="Días de crédito">
-            <label for="porcentaje_credito">Porcentaje adicional:</label>
-            <select name="porcentaje_credito" id="porcentaje_credito">
-                <option value="5">5%</option>
-                <option value="10">10%</option>
-                <option value="15">15%</option>
-                <option value="20">20%</option>
-            </select>
-        </div>
+            <div class="mb-4" id="credito-fields" style="display: none;">
+                <input type="number" name="dias_credito" placeholder="Días de crédito">
+                <label for="porcentaje_credito">Porcentaje adicional:</label>
+                <select name="porcentaje_credito" id="porcentaje_credito">
+                    <option value="5">5%</option>
+                    <option value="10">10%</option>
+                    <option value="15">15%</option>
+                    <option value="20">20%</option>
+                </select>
+            </div>
 
         <div class="flex items-center justify-between">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Registrar Venta</button>
