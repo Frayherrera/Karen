@@ -49,8 +49,8 @@
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex space-x-2">
-                                <a href="{{ route('articulos.show', $articulo->id) }}"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs">Ver</a>
+                                <a href="{{ route('articulos.edit', $articulo->id) }}"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs">Editar</a>
                                 <button onclick="openVentaModal('{{ $articulo->codigo }}', '{{ $articulo->nombre }}')"
                                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs">
                                     Vender
