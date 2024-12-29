@@ -1,86 +1,136 @@
 @extends('layouts.app')
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Ventas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dancing-script {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .custom-shadow {
+            box-shadow: 0 4px 6px -1px rgba(219, 39, 119, 0.1), 0 2px 4px -1px rgba(219, 39, 119, 0.06);
+        }
+        
+        .table-header {
+            background: linear-gradient(to right, #ec4899, #db2777);
+            color: white;
+        }
+        
+        .btn-hover-effect:hover {
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            color: #db2777;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
+
 @section('content')
-<body>
+<body class="bg-pink-50">
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <div class="bg-pink-100 border border-pink-400 text-pink-700 px-4 py-3 rounded relative mb-4 custom-shadow" role="alert">
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
     @endif
-<div class="container mt-5">
-    <h1 class="text-2xl font-bold text-center my-6">Lista de Ventas</h1>
-    <a href="{{ url('/articulos') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Atras</a>
-    <a href="{{ route('salida') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Nueva venta</a>
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Fecha de Venta</th>
-            <th>Código</th>
-            <th>Cantidad</th>
-            <th>Valor Unitario</th>
-            <th>Descuento</th>
-            <th>Tipo</th>
-            <th>N° Cuotas</th>
-            <th>Utilidad</th>
-            <th>Total</th>
-          
-            <th>Acciones</th>
+    <div class="container mt-5">
+        <h1 class="text-4xl font-bold text-center my-6 dancing-script text-pink-600">Lista de Ventas</h1>
+        
+        <div class="flex gap-4 mb-6">
+            <a href="{{ url('/articulos') }}" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded custom-shadow btn-hover-effect">
+                <i class="fas fa-arrow-left mr-2"></i>Atrás
+            </a>
+            <a href="{{ route('salida') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded custom-shadow btn-hover-effect">
+                <i class="fas fa-plus mr-2"></i>Nueva venta
+            </a>
+        </div>
 
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($ventas as $venta)
-            <tr>
-                <td>{{ $venta->id }}</td>
-                <td>{{ $venta->fecha_venta }}</td>
-                <td>{{ $venta->codigo }}</td>
-                <td>{{ $venta->cantidad }}</td>
-                <td>${{ number_format($venta->valor_unitario, 2) }}</td>
-                <td>${{ number_format($venta->descuento, 2) }}</td>
-                <td>{{ ucfirst($venta->tipo) }}</td>
-                <td>{{ number_format($venta->dias_credito) }}</td>
-                <td>${{ number_format($venta->utilidad, 2) }}</td>
-                <td>${{ number_format($venta->valor_total, 2) }}</td>
+        @if($ventas->isEmpty())
+            <div class="empty-state custom-shadow">
+                <i class="fas fa-shopping-cart empty-state-icon"></i>
+                <h2 class="text-2xl font-semibold text-pink-600 mb-2">No hay ventas registradas</h2>
+                <p class="text-gray-600 mb-4">Aún no se han realizado ventas en el sistema.</p>
+                <a href="{{ route('salida') }}" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded custom-shadow btn-hover-effect">
+                    <i class="fas fa-plus mr-2"></i>Realizar primera venta
+                </a>
+            </div>
+        @else
+            <div class="bg-white rounded-lg overflow-hidden custom-shadow">
+                <table class="w-full table-auto">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Fecha de Venta</th>
+                            <th class="px-4 py-3">Código</th>
+                            <th class="px-4 py-3">Cantidad</th>
+                            <th class="px-4 py-3">Valor Unitario</th>
+                            <th class="px-4 py-3">Descuento</th>
+                            <th class="px-4 py-3">Tipo</th>
+                            <th class="px-4 py-3">N° Cuotas</th>
+                            <th class="px-4 py-3">Utilidad</th>
+                            <th class="px-4 py-3">Total</th>
+                            <th class="px-4 py-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ventas as $venta)
+                            <tr class="hover:bg-pink-50 transition-colors">
+                                <td class="border-t px-4 py-3">{{ $venta->id }}</td>
+                                <td class="border-t px-4 py-3">{{ $venta->fecha_venta }}</td>
+                                <td class="border-t px-4 py-3">{{ $venta->codigo }}</td>
+                                <td class="border-t px-4 py-3">{{ $venta->cantidad }}</td>
+                                <td class="border-t px-4 py-3">${{ number_format($venta->valor_unitario, 2) }}</td>
+                                <td class="border-t px-4 py-3">${{ number_format($venta->descuento, 2) }}</td>
+                                <td class="border-t px-4 py-3">{{ ucfirst($venta->tipo) }}</td>
+                                <td class="border-t px-4 py-3">{{ number_format($venta->dias_credito) }}</td>
+                                <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 2) }}</td>
+                                <td class="border-t px-4 py-3">${{ number_format($venta->valor_total, 2) }}</td>
+                                <td class="border-t px-4 py-3">
+                                    <a href="{{ route('ventas.ticket', $venta->id) }}" 
+                                       class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded text-sm custom-shadow btn-hover-effect">
+                                        <i class="fas fa-receipt mr-1"></i>Ticket
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-                
-
-                <td>
-                    <!-- Botón para generar ticket -->
-                    <a href="{{ route('ventas.ticket', $venta->id) }}" class="btn btn-primary btn-sm">Generar Ticket</a>
-                    
-                    {{-- <!-- Botón para editar (opcional) -->
-                    <a href="{{ route('ventas.edit', $venta->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    
-                    <!-- Formulario para eliminar -->
-                    <form action="{{ route('ventas.destroy', $venta->id) }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('¿Estás seguro de eliminar esta venta?')">Eliminar</button>
-                    </form> --}}
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-    <!-- Paginación -->
-    <div class="d-flex justify-content-center">
-        {{ $ventas->links() }}
+            <div class="mt-6">
+                {{ $ventas->links() }}
+            </div>
+        @endif
     </div>
-</div>
+
+    <script>
+        // Personalización de SweetAlert2 con tema rosa
+        const Toast = Swal.mixin({
+            customClass: {
+                confirmButton: 'bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded mx-2',
+                cancelButton: 'bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mx-2'
+            },
+            buttonsStyling: false
+        });
+    </script>
 </body>
 @endsection
-
 </html>
