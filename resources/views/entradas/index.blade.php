@@ -13,8 +13,8 @@
 
     <!-- Botón para registrar una nueva entrada -->
     <a href="{{ url('/articulos') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Atras</a>
-
-    <a href="{{ route('entradas.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Registrar Nueva Entrada</a>
+{{-- 
+    <a href="{{ route('entradas.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6 inline-block">Registrar Nueva Entrada</a> --}}
 
     <!-- Tabla de entradas -->
     @if($entradas->isEmpty())
@@ -44,7 +44,7 @@
                             <td class="py-4 px-6">{{ $entrada->fecha_ingreso }}</td>
                             <td class="py-4 px-6">
                                 <div class="flex space-x-2">
-                                    <a href="{{ route('entradas.show', $entrada->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs">Ver</a>
+                                    {{-- <a href="{{ route('entradas.show', $entrada->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs">Ver</a> --}}
                                     <form id="delete-form-{{ $entrada->id }}" action="{{ route('entradas.destroy', $entrada->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
