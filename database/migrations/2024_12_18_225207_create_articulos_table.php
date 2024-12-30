@@ -20,6 +20,10 @@ return new class extends Migration
             $table->decimal('valor_venta', 10, 2); // Valor de venta
             $table->integer('stock')->default(0); // Stock inicial (por defecto 0)
             $table->timestamps(); // Marcas de tiempo (creado y actualizado)
+            $table->foreignId('categoria_id')
+            ->constrained('categorias') // Relación con la tabla `categorias`
+            ->onDelete('cascade') // Elimina artículos si se elimina la categoría
+            ->nullable(); // Permitir artículos sin categoría inicial
         });
     }
 

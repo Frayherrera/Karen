@@ -13,10 +13,25 @@ class Articulo extends Model
         'valor_costo',
         'valor_venta',
         'stock',
+        'categoria_id',
     ];
 
     public function getPorcentajeUtilidadAttribute()
     {
         return (($this->valor_venta - $this->valor_costo) / $this->valor_costo) * 100;
     }
+    public function entradas()
+    {
+        return $this->hasMany(Entrada::class, 'codigo', 'codigo');
+    }
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'codigo', 'codigo');
+    }
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('codigo')->index(); // Código del producto
             $table->integer('cantidad'); // Cantidad de ingreso
-            $table->decimal('valor_costo', 10, 2); // Costo por unidad
+            $table->decimal('valor_costo', 10, 2)->nullable(); // Costo por unidad
             $table->timestamp('fecha_ingreso'); // Fecha de ingreso
             $table->timestamps();
         });

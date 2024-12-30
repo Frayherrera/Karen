@@ -25,7 +25,7 @@ background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(107, 158, 229) 58
                 <img width="250px" src="img/pixelcut-export__1_-removebg-preview.png" alt=""> </a>
         </div>
 
-        <div  class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
+        <div  class="w-full sm:max-w-md mt-6 px-6 py-4  overflow-hidden sm:rounded-lg">
             {{ $slot }}
         </div>
     </div>
