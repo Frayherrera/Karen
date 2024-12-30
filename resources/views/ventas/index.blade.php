@@ -79,12 +79,10 @@
                         <tr>
                             <th class="px-4 py-3">ID</th>
                             <th class="px-4 py-3">Fecha de Venta</th>
-                            <th class="px-4 py-3">Código</th>
-                            <th class="px-4 py-3">Cantidad</th>
-                            <th class="px-4 py-3">Valor Unitario</th>
-                            <th class="px-4 py-3">Descuento</th>
+                            
+                            
                             <th class="px-4 py-3">Tipo</th>
-                            <th class="px-4 py-3">N° Cuotas</th>
+                           
                             <th class="px-4 py-3">Utilidad</th>
                             <th class="px-4 py-3">Total</th>
                             <th class="px-4 py-3">Acciones</th>
@@ -95,12 +93,8 @@
                             <tr class="hover:bg-pink-50 transition-colors">
                                 <td class="border-t px-4 py-3">{{ $venta->id }}</td>
                                 <td class="border-t px-4 py-3">{{ $venta->fecha_venta }}</td>
-                                <td class="border-t px-4 py-3">{{ $venta->codigo }}</td>
-                                <td class="border-t px-4 py-3">{{ $venta->cantidad }}</td>
-                                <td class="border-t px-4 py-3">${{ number_format($venta->valor_unitario, 2) }}</td>
-                                <td class="border-t px-4 py-3">${{ number_format($venta->descuento, 2) }}</td>
+                               
                                 <td class="border-t px-4 py-3">{{ ucfirst($venta->tipo) }}</td>
-                                <td class="border-t px-4 py-3">{{ number_format($venta->dias_credito) }}</td>
                                 <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 2) }}</td>
                                 <td class="border-t px-4 py-3">${{ number_format($venta->valor_total, 2) }}</td>
                                 <td class="border-t px-4 py-3">

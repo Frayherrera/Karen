@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('articulos.index') }}" class="transform hover:scale-110 transition-transform duration-300">
-                        <img width="90px" src="img/pixelcut-export__1_-removebg-preview.png" alt="Logo">
+                        <img width="90px" src="/img/pixelcut-export__1_-removebg-preview.png" alt="Logo">
                     </a>
                 </div>
             </div>
