@@ -71,7 +71,10 @@
         color: #0099ff;
         text-decoration: none;
     }
-
+    
+    .login-button:hover{
+        cursor: pointer;
+    }
     .form .login-button {
         display: block;
         width: 100%;

@@ -2,98 +2,249 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-2xl font-bold text-center my-6">Editar Artículo</h1>
+    <h1 class="text-3xl font-dancing text-center my-8 text-pink-600" style="font-family: 'Dancing Script', cursive;">Editar Artículo</h1>
 
     @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong class="font-bold">¡Error!</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Este código ya existe',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#ec4899'
+                });
+            });
+        </script>
     @endif
 
-    <form action="{{ route('articulos.update', $articulo->id) }}" method="POST" class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form action="{{ route('articulos.update', $articulo->id) }}" method="POST" id="editForm" 
+        class="max-w-lg mx-auto bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 border border-pink-100">
         @csrf
         @method('PUT')
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="codigo">Código</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                   id="codigo" 
-                   name="codigo" 
-                   type="text" 
-                   value="{{ old('codigo', $articulo->codigo) }}" 
-                   placeholder="Código">
-        </div>
+<!-- Código -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="codigo">
+        <i class="fas fa-barcode mr-2"></i>Código *
+    </label>
+    <div class="relative">
+        <input required 
+            class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150" 
+            id="codigo" 
+            name="codigo" 
+            type="text" 
+            maxlength="10"
+            placeholder="Código del artículo" 
+            value="{{ old('codigo', $articulo->codigo) }}"
+            onblur="verificarCodigoArticulo(this.value)">
+        <div id="codigo-feedback" class="mt-1 text-sm hidden"></div>
+    </div>
+</div>
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="nombre">Nombre</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                   id="nombre" 
-                   name="nombre" 
-                   type="text" 
-                   value="{{ old('nombre', $articulo->nombre) }}" 
-                   placeholder="Nombre">
-        </div>
+<!-- Nombre -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="nombre">
+        <i class="fas fa-tag mr-2"></i>Nombre *
+    </label>
+    <input required 
+        class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150" 
+        id="nombre" 
+        name="nombre" 
+        type="text" 
+        maxlength="15"
+        placeholder="Nombre del artículo" 
+        value="{{ old('nombre', $articulo->nombre) }}">
+</div>
 
-        <div class="mb-6">
-            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-            <textarea name="descripcion" id="descripcion" rows="3" 
-                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      placeholder="Opcional: ingrese una breve descripción del artículo">{{ old('descripcion', $articulo->descripcion) }}</textarea>
-        </div>
+<!-- Descripción -->
+<div class="mb-6">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="descripcion">
+        <i class="fas fa-align-left mr-2"></i>Descripción
+    </label>
+    <textarea 
+        name="descripcion" 
+        id="descripcion" 
+        rows="3" 
+        maxlength="500"
+        class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150"
+        placeholder="Descripción del artículo">{{ old('descripcion', $articulo->descripcion) }}</textarea>
+    <div class="text-sm text-pink-400 mt-1">
+        <span id="descripcion-contador">0</span>/500 caracteres
+    </div>
+</div>
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_costo">Valor Costo</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                   id="valor_costo" 
-                   name="valor_costo" 
-                   type="number" 
-                   step="0.01" 
-                   value="{{ old('valor_costo', $articulo->valor_costo) }}" 
-                   placeholder="Valor Costo">
-        </div>
+<!-- Valor Costo -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="valor_costo">
+        <i class="fas fa-dollar-sign mr-2"></i>Valor Costo *
+    </label>
+    <input required 
+        class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150" 
+        id="valor_costo" 
+        name="valor_costo" 
+        type="number" 
+        step="0.01" 
+        min="0"
+        placeholder="0.00" 
+        value="{{ old('valor_costo', $articulo->valor_costo) }}"
+        onchange="validarValores()">
+</div>
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="valor_venta">Valor Venta</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                   id="valor_venta" 
-                   name="valor_venta" 
-                   type="number" 
-                   step="0.01" 
-                   value="{{ old('valor_venta', $articulo->valor_venta) }}" 
-                   placeholder="Valor Venta">
-        </div>
+<!-- Valor Venta -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="valor_venta">
+        <i class="fas fa-tags mr-2"></i>Valor Venta *
+    </label>
+    <input required 
+        class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150" 
+        id="valor_venta" 
+        name="valor_venta" 
+        type="number" 
+        step="0.01" 
+        min="0"
+        placeholder="0.00" 
+        value="{{ old('valor_venta', $articulo->valor_venta) }}"
+        onchange="validarValores()">
+    <div id="valor-feedback" class="mt-1 text-sm hidden"></div>
+</div>
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="stock">Stock</label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                   id="stock" 
-                   name="stock" 
-                   type="number" 
-                   value="{{ old('stock', $articulo->stock) }}" 
-                   placeholder="Stock">
-        </div>
+<!-- Stock -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="stock">
+        <i class="fas fa-boxes mr-2"></i>Stock *
+    </label>
+    <input required 
+        class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150" 
+        id="stock" 
+        name="stock" 
+        type="number" 
+        min="0"
+        placeholder="0" 
+        value="{{ old('stock', $articulo->stock) }}">
+</div>
 
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="categoria_id">Categoría</label>
-            <select id="categoria_id" name="categoria_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="">Seleccione una categoría</option>
-                @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->id }}" {{ old('categoria_id', $articulo->categoria_id) == $categoria->id ? 'selected' : '' }}>
-                        {{ $categoria->nombre }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="flex items-center justify-between">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Actualizar</button>
-            <a href="{{ route('articulos.index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Cancelar</a>
+<!-- Categoría -->
+<div class="mb-4">
+    <label class="block text-pink-700 text-sm font-semibold mb-2" for="categoria_id">
+        <i class="fas fa-folder mr-2"></i>Categoría *
+    </label>
+    <div class="flex">
+        <select required 
+            name="categoria_id" 
+            id="categoria_id" 
+            class="shadow-sm appearance-none border border-pink-200 rounded-lg w-full py-2.5 px-3 text-gray-700 leading-tight focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-200 transition duration-150">
+            <option value="" disabled>Selecciona una categoría</option>
+            @foreach($categorias as $categoria)
+                <option value="{{ $categoria->id }}" {{ (old('categoria_id', $articulo->categoria_id) == $categoria->id) ? 'selected' : '' }}>
+                    {{ $categoria->nombre }}
+                </option>
+            @endforeach
+        </select>
+        <button type="button" 
+            class="ml-2 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-lg transition duration-150 shadow-sm" 
+            onclick="openModal()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+</div>
+        <!-- Botones -->
+        <div class="flex items-center justify-between mt-6">
+            <button class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2.5 px-6 rounded-lg transition duration-150 shadow-sm" 
+                type="submit">
+                <i class="fas fa-save mr-2"></i>Actualizar
+            </button>
+            <a href="{{ route('articulos.index') }}" 
+                class="inline-block align-baseline font-bold text-sm text-pink-500 hover:text-pink-700 transition duration-150">
+                <i class="fas fa-times mr-2"></i>Cancelar
+            </a>
         </div>
     </form>
 </div>
+
+<script>
+    // Validación de código de artículo
+    function verificarCodigoArticulo(codigo) {
+        if (!codigo) return;
+
+        fetch(`/articulos/verificar-codigo?codigo=${encodeURIComponent(codigo)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.existe) {
+                    Swal.fire({
+                        title: '¡Atención!',
+                        text: 'Este código ya existe.',
+                        icon: 'warning',
+                        confirmButtonText: 'Entendido',
+                        confirmButtonColor: '#ec4899'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Validación de valores de costo y venta
+    function validarValores() {
+        const valorCosto = parseFloat(document.getElementById('valor_costo').value) || 0;
+        const valorVenta = parseFloat(document.getElementById('valor_venta').value) || 0;
+
+        if (valorVenta < valorCosto) {
+            Swal.fire({
+                title: '¡Advertencia!',
+                text: 'El valor de venta es menor que el valor de costo',
+                icon: 'warning',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#ec4899'
+            });
+        }
+    }
+
+    // Contador de caracteres para descripción
+    const descripcionTextarea = document.getElementById('descripcion');
+    const contadorSpan = document.getElementById('descripcion-contador');
+
+    descripcionTextarea.addEventListener('input', function() {
+        const caracteresActuales = this.value.length;
+        contadorSpan.textContent = caracteresActuales;
+        
+        if (caracteresActuales > 500) {
+            this.value = this.value.substring(0, 500);
+            contadorSpan.textContent = 500;
+        }
+    });
+
+    // Validación del formulario antes de enviar
+    document.getElementById('editForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const valorCosto = parseFloat(document.getElementById('valor_costo').value) || 0;
+        const valorVenta = parseFloat(document.getElementById('valor_venta').value) || 0;
+
+        if (valorVenta < valorCosto) {
+            const result = await Swal.fire({
+                title: '¡Advertencia!',
+                text: 'El valor de venta es menor que el valor de costo. ¿Desea continuar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ec4899',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, continuar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        } else {
+            this.submit();
+        }
+    });
+
+    // Inicializar contador de caracteres
+    document.addEventListener('DOMContentLoaded', function() {
+        const caracteresActuales = descripcionTextarea.value.length;
+        contadorSpan.textContent = caracteresActuales;
+    });
+</script>
 @endsection

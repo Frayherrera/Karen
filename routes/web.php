@@ -42,19 +42,23 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para crear una salida (venta)
     Route::get('/salida', function () {
-  
-    $articulos = Articulo::all(); // Obtén todos los artículos
-    return view('ventas.create', compact('articulos'));
+
+        $articulos = Articulo::all(); // Obtén todos los artículos
+        return view('ventas.create', compact('articulos'));
     })->name('salida');
 
     // Ruta para almacenar una nueva categoría
     Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
 
     Route::post('/articulos/get', [ArticuloController::class, 'getArticulo'])->name('articulos.get');
+    Route::get('/obtener-valor/{id}', [ArticuloController::class, 'obtenerValor']);
 
 
+    Route::get('/obtener-articulo/{id}', [ArticuloController::class, 'obtenerArticulo']);
 
+
+    Route::get('/obtener-articulo-por-codigo/{codigo}', [ArticuloController::class, 'obtenerArticuloPorCodigo']);
 });
 
 // Rutas de autenticación generadas automáticamente
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

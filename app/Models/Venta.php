@@ -29,8 +29,8 @@ class Venta extends Model
     /**
      * Relación: Una venta pertenece a un artículo.
      */
-    public function articulo()
+    public function articulos()
     {
-        return $this->belongsTo(Articulo::class, 'codigo', 'codigo');
+        return $this->belongsToMany(Articulo::class, 'articulo_venta')->withPivot('cantidad', 'valor_unitario', 'descuento')->withTimestamps();
     }
 }
