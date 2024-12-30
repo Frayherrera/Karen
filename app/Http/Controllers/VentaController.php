@@ -27,72 +27,92 @@ class VentaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'codigo' => 'required|exists:articulos,codigo',
-            'cantidad' => 'required|integer|min:1',
-            'valor_unitario' => 'required|numeric|min:0',
+            'articulos' => 'required|array',
+            'articulos.*.codigo' => 'required|exists:articulos,codigo',
+            'articulos.*.cantidad' => 'required|integer|min:1',
+            'articulos.*.valor_unitario' => 'required|numeric|min:0',
             'tipo' => 'required|in:contado,credito',
             'dias_credito' => 'nullable|required_if:tipo,credito|integer|min:1',
             'porcentaje_credito' => 'nullable|required_if:tipo,credito|integer|min:0|max:100',
             'descuento' => 'nullable|numeric|min:0',
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->route('salida')->withErrors($validator)->withInput();
         }
-
-
-        $articulo = Articulo::where('codigo', $request->codigo)->first();
-
-        if ($articulo->stock < $request->cantidad) {
-            return redirect()->back()->withErrors(['error' => 'Stock insuficiente.']);
+    
+        // Crear la venta en la tabla `ventas`
+        $venta = Venta::create([
+            'tipo' => $request->tipo,
+            'dias_credito' => $request->tipo === 'credito' ? $request->dias_credito : null,
+            'valor_total' => 0, // Valor total inicializado en 0, lo actualizaremos más tarde
+            'utilidad' => 0, // Utilidad inicializada en 0, la actualizaremos más tarde
+            'fecha_venta' => now(),
+        ]);
+    
+        $valor_total = 0;
+        $utilidad_total = 0;
+    
+        foreach ($request->articulos as $articuloData) {
+            $articulo = Articulo::where('codigo', $articuloData['codigo'])->first();
+    
+            if ($articulo->stock < $articuloData['cantidad']) {
+                return redirect()->back()->withErrors(['error' => 'Stock insuficiente para el artículo: ' . $articulo->nombre]);
+            }
+    
+            $valor_articulo = $articuloData['cantidad'] * $articuloData['valor_unitario'];
+            $utilidad_articulo = (($articuloData['valor_unitario'] - $articulo->valor_costo) * $articuloData['cantidad']) - ($articuloData['descuento'] ?? 0);
+    
+            $valor_total += $valor_articulo;
+            $utilidad_total += $utilidad_articulo;
+    
+            // Reducir el stock del artículo
+            $articulo->stock -= $articuloData['cantidad'];
+            $articulo->save();
+    
+            // Guardar cada artículo vendido en la tabla pivot
+            \DB::table('articulo_venta')->insert([
+                'venta_id' => $venta->id,
+                'articulo_id' => $articulo->id,
+                'cantidad' => $articuloData['cantidad'],
+                'valor_unitario' => $articuloData['valor_unitario'],
+                'descuento' => $articuloData['descuento'] ?? 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
-
-        // Calcular el valor total
-        $valor_total = $request->cantidad * $request->valor_unitario;
-
+    
         // Agregar porcentaje adicional si la venta es a crédito
         if ($request->tipo === 'credito') {
             $porcentaje_adicional = ($valor_total * $request->porcentaje_credito) / 100;
             $valor_total += $porcentaje_adicional;
+            $utilidad_total += $porcentaje_adicional;
         }
-
+    
         // Restar descuento si se aplica
         $valor_total -= $request->descuento ?? 0;
-
-        // Calcular utilidad
-        $utilidad = (($request->valor_unitario - $articulo->valor_costo) * $request->cantidad)
-            + ($request->tipo === 'credito' ? $porcentaje_adicional ?? 0 : 0)
-            - $request->descuento;
-
-        // Crear la venta
-        $venta = Venta::create([
-            'codigo' => $request->codigo,
-            'cantidad' => $request->cantidad,
-            'valor_unitario' => $request->valor_unitario,
+    
+        // Actualizar la venta con los valores finales
+        $venta->update([
             'valor_total' => $valor_total,
-            'descuento' => $request->descuento ?? 0,
-            'tipo' => $request->tipo,
-            'dias_credito' => $request->tipo === 'credito' ? $request->dias_credito : null,
-            'fecha_venta' => now(),
-            'utilidad' => $utilidad,
+            'utilidad' => $utilidad_total,
         ]);
-
-        // Actualizar stock del artículo
-        $articulo->stock -= $request->cantidad;
-        $articulo->save();
-        return redirect()->route('ventas.index')->with('success', 'Venta exitosa.');
+    
+        return redirect()->route('ventas.index')->with('success', 'Venta exitosa. Código de venta: ' . $venta->id);
     }
-
+    
     public function generarTicket($id)
     {
         $venta = Venta::findOrFail($id);
-        $articulo = Articulo::where('codigo', $venta->codigo)->first();
-
-        $pdf = Pdf::loadView('tickets.ticket', compact('venta', 'articulo'));
-
+        $articulos = $venta->articulos; // Obtener todos los artículos asociados a la venta
+    
+        $pdf = Pdf::loadView('tickets.ticket', compact('venta', 'articulos'));
+    
         // Descargar el ticket como PDF
         return $pdf->stream('ticket-venta-' . $venta->id . '.pdf');
     }
+    
+
     public function index()
     {
         $ventas = Venta::orderBy('fecha_venta', 'desc')->paginate(9); // Ordenar y paginar

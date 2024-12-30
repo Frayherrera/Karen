@@ -15,10 +15,14 @@ class CategoriaSeeder extends Seeder
     public function run()
     {
         DB::table('categorias')->insert([
-            ['nombre' => 'Electrónica', 'descripcion' => 'Artículos de electrónica y accesorios', 'created_at' => now(), 'updated_at' => now()],
-            ['nombre' => 'Muebles', 'descripcion' => 'Sillas, mesas y otros muebles', 'created_at' => now(), 'updated_at' => now()],
-            ['nombre' => 'Gaming', 'descripcion' => 'Accesorios y dispositivos para gamers', 'created_at' => now(), 'updated_at' => now()],
-            ['nombre' => 'Almacenamiento', 'descripcion' => 'Dispositivos de almacenamiento', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Sábanas', 'descripcion' => 'Sábanas de diferentes tamaños y materiales', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Colchas', 'descripcion' => 'Colchas para camas de todos los tamaños', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Toallas', 'descripcion' => 'Toallas de baño, mano y playa', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Almohadas', 'descripcion' => 'Almohadas de diferentes tipos y tamaños', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Pijamas', 'descripcion' => 'Pijamas para todas las edades y géneros', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Pantalonetas de Baño', 'descripcion' => 'Pantalonetas de baño para hombres y mujeres', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Camisetas de Algodón', 'descripcion' => 'Camisetas de algodón de alta calidad', 'created_at' => now(), 'updated_at' => now()],
         ]);
+        
     }
 }

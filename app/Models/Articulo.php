@@ -27,11 +27,10 @@ class Articulo extends Model
 
     public function ventas()
     {
-        return $this->hasMany(Venta::class, 'codigo', 'codigo');
+        return $this->belongsToMany(Venta::class, 'articulo_venta')->withPivot('cantidad', 'valor_unitario', 'descuento')->withTimestamps();
     }
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
     }
-
 }
