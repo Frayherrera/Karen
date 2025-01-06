@@ -24,7 +24,7 @@
             <h1 class="text-4xl font-bold text-center mb-6 text-pink-600" style="font-family: 'Dancing Script', cursive;">
                 Nueva Venta</h1>
 
-            <form action="{{ route('ventas.store') }}" method="POST"
+            <form id="ventaForm" action="{{ route('ventas.store') }}" method="POST"
                 class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
                 @csrf
 
@@ -435,6 +435,52 @@
             xhr.send();
         }
     </script>
+    <script>
+document.getElementById('ventaForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+        const response = await fetch("{{ route('ventas.store') }}", {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+
+        if (response.ok) {
+            await Swal.fire({
+                title: '¡Éxito!',
+                text: 'Venta registrada correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#ec4899'
+            });
+            
+            window.location.href = "{{ route('ventas.index') }}";
+        } else {
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Hubo un problema al registrar la venta',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#ec4899'
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+function toggleCreditoFields() {
+    const creditoFields = document.getElementById('credito-fields');
+    const tipoVenta = document.getElementById('tipo_venta').value;
+    
+    creditoFields.style.display = tipoVenta === 'credito' ? 'block' : 'none';
+}
+
+document.getElementById('tipo_venta').addEventListener('change', toggleCreditoFields);
+</script>
 @endsection
 {{-- <!DOCTYPE html>
 <html lang="en">

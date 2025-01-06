@@ -23,7 +23,7 @@ class VentaController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Artículo no encontrado.']);
     }
-
+   
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -113,9 +113,20 @@ class VentaController extends Controller
     }
     
 
-    public function index()
-    {
-        $ventas = Venta::orderBy('fecha_venta', 'desc')->paginate(9); // Ordenar y paginar
-        return view('ventas.index', compact('ventas'));
+    public function index(Request $request)
+{
+    $query = $request->input('search');
+    
+    $ventas = Venta::when($query, function($q) use ($query) {
+            $q->where('id', 'like', "%{$query}%");
+        })
+        ->orderBy('fecha_venta', 'desc')
+        ->paginate(9);
+        
+    if ($request->ajax()) {
+        return view('ventas.partials.ventas-table', compact('ventas'))->render();
     }
+    
+    return view('ventas.index', compact('ventas'));
+}
 }

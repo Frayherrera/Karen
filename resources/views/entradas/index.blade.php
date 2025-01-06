@@ -36,7 +36,7 @@
                         <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider rounded-tl-lg">Código</th>
                         <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider">Artículo</th>
                         <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider">Cantidad</th>
-                        <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider">Valor Costo</th>
+                        {{-- <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider">Valor Costo</th> --}}
                         <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider">Fecha de Ingreso</th>
                         <th class="py-3 px-6 text-left text-sm font-semibold uppercase tracking-wider rounded-tr-lg">Acciones</th>
                     </tr>
@@ -47,7 +47,7 @@
                             <td class="py-4 px-6">{{ $entrada->codigo }}</td>
                             <td class="py-4 px-6">{{ $entrada->articulo->nombre ?? 'Sin Artículo' }}</td>
                             <td class="py-4 px-6">{{ $entrada->cantidad }}</td>
-                            <td class="py-4 px-6">${{ number_format($entrada->valor_costo, 2) }}</td>
+                            {{-- <td class="py-4 px-6">${{ number_format($entrada->valor_costo, 2) }}</td> --}}
                             <td class="py-4 px-6">{{ $entrada->fecha_ingreso }}</td>
                             <td class="py-4 px-6">
                                 <div class="flex space-x-2">

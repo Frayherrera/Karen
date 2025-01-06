@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
     Route::get('/ventas/{id}/ticket', [VentaController::class, 'generarTicket'])->name('ventas.ticket');
+ 
 
     // Ruta para crear una salida (venta)
     Route::get('/salida', function () {

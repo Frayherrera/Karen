@@ -35,7 +35,7 @@ class EntradaController extends Controller
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|exists:articulos,codigo',
             'cantidad' => 'required|integer|min:1',
-            'valor_costo' => 'nullable|numeric|min:0',
+            // 'valor_costo' => 'nullable|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +46,7 @@ class EntradaController extends Controller
         $entrada = Entrada::create([
             'codigo' => $request->codigo,
             'cantidad' => $request->cantidad,
-            'valor_costo' => $request->valor_costo,
+            // 'valor_costo' => $request->valor_costo,
             'fecha_ingreso' => now(),
         ]);
 
