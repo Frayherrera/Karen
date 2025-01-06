@@ -13,6 +13,7 @@
             <thead class="table-header">
                 <tr>
                     <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Cliente</th>
                     <th class="px-4 py-3">Fecha de Venta</th>
                     <th class="px-4 py-3">Tipo</th>
                     <th class="px-4 py-3">Utilidad</th>
@@ -24,6 +25,8 @@
                 @foreach ($ventas as $venta)
                     <tr class="hover:bg-pink-50 transition-colors">
                         <td class="border-t px-4 py-3">{{ $venta->id }}</td>
+                        <td class="border-t px-4 py-3">{{ $venta->nombre_cliente }}</td>
+
                         <td class="border-t px-4 py-3">{{ $venta->fecha_venta }}</td>
                         <td class="border-t px-4 py-3">{{ ucfirst($venta->tipo) }}</td>
                         <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 2) }}</td>

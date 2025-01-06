@@ -13,6 +13,7 @@ class CreateVentasTable extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_cliente'); // Nombre del cliente
             $table->string('codigo')->index();       // Código del producto (relacionado con artículos)
             $table->integer('cantidad');            // Cantidad vendida
             $table->decimal('valor_unitario', 10, 2); // Precio unitario

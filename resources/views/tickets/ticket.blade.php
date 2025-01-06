@@ -58,6 +58,8 @@
         <p><strong>Código de Venta:</strong> {{ $venta->id }}</p>
         <p><strong>Fecha de Venta:</strong> {{ $venta->fecha_venta }}</p>
         <p><strong>Tipo de Venta:</strong> {{ $venta->tipo }}</p>
+        <p><strong>Nombre Cliente:</strong> {{ $venta->nombre_cliente }}</p>
+
         
         <table>
             <thead>

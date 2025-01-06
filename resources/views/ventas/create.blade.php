@@ -177,6 +177,14 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="mb-4">
+                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                        <i class="fas fa-tag mr-2"></i>Nombre del Cliente
+                                    </label>
+                                    <input 
+                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                        type="text" name="nombre_cliente">
+                                </div>
                             </div>
                         </div>
                         <div class="flex justify-end mt-2">

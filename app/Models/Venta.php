@@ -16,6 +16,7 @@ class Venta extends Model
      */
     protected $fillable = [
         'codigo',         // Código del producto
+        'nombre_cliente',
         'cantidad',       // Cantidad vendida
         'valor_unitario', // Precio unitario
         'valor_total',    // Precio total
