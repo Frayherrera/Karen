@@ -59,6 +59,10 @@
         <p><strong>Fecha de Venta:</strong> {{ $venta->fecha_venta }}</p>
         <p><strong>Tipo de Venta:</strong> {{ $venta->tipo }}</p>
         <p><strong>Nombre Cliente:</strong> {{ $venta->nombre_cliente }}</p>
+        <p><strong>Cedula Cliente:</strong> {{ $venta->cedula_cliente }}</p>
+        <p><strong>Dirección Cliente:</strong> {{ $venta->direccion_cliente }}</p>
+        <p><strong>Telefono Cliente:</strong> {{ $venta->telefono_cliente }}</p>
+
 
         
         <table>

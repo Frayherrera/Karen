@@ -27,6 +27,9 @@ class VentaController extends Controller
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'nombre_cliente' => 'required|string|max:255', // Nueva regla de validación
+            'direccion_cliente' => 'required|string|max:255', // Nueva regla de validación
+            'cedula_cliente' => 'required|string|max:255', // Nueva regla de validación
+            'telefono_cliente' => 'required|string|max:255', // Nueva regla de validación
             'articulos' => 'required|array',
             'articulos.*.codigo' => 'required|exists:articulos,codigo',
             'articulos.*.cantidad' => 'required|integer|min:1',
@@ -44,6 +47,10 @@ class VentaController extends Controller
         // Crear la venta en la tabla `ventas`
         $venta = Venta::create([
             'nombre_cliente' => $request->nombre_cliente, // Agregar el nombre del cliente
+            'direccion_cliente' => $request->direccion_cliente, // Agregar el nombre del cliente
+            'cedula_cliente' => $request->cedula_cliente, // Agregar el nombre del cliente
+            'telefono_cliente' => $request->telefono_cliente, // Agregar el nombre del cliente
+
             'tipo' => $request->tipo,
             'dias_credito' => $request->tipo === 'credito' ? $request->dias_credito : null,
             'valor_total' => 0, // Valor total inicializado en 0, lo actualizaremos más tarde

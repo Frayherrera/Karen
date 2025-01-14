@@ -49,98 +49,47 @@
                                         xhr.send();
                                     }
                                 </script>
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="codigo">
-                                        <i class="fas fa-barcode mr-2"></i>Código
-                                    </label>
-                                    {{-- <input id="codigo" 
-                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
-                                    type="text" 
-                                    name="codigo" 
-                                    required> --}}
-                                    <input id="codigo"
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="text" name="articulos[0][codigo]" onchange="obtenerArticulo2()" required>
-
-                                    <script>
-                                        function obtenerArticulo2() {
-                                            var codigo = document.getElementById("codigo").value;
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
-                                            xhr.onreadystatechange = function() {
-                                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                                    var response = JSON.parse(xhr.responseText);
-                                                    document.getElementById("nombre").value = response.nombre;
-                                                    document.getElementById("valor_unitario").value = response.valor_venta;
-                                                }
-                                            };
-                                            xhr.send();
-                                        }
-                                    </script>
+                                <div>
+                                    <h1 class="block text-pink-600  font-bold ">datos del cliente</h1>
+                                    <div class="mb-4">
+                                        <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                            <i class="fas fa-tag mr-2"></i>Nombre
+                                        </label>
+                                        <input
+                                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                            type="text" name="nombre_cliente">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                            <i class="fas fa-tag mr-2"></i>Dirección
+                                        </label>
+                                        <input
+                                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                            type="text" name="direccion_cliente">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                            <i class="fas fa-tag mr-2"></i>Cedula
+                                        </label>
+                                        <input
+                                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                            type="text" name="cedula_cliente">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                            <i class="fas fa-tag mr-2"></i>Telefono
+                                        </label>
+                                        <input
+                                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                            type="text" name="telefono_cliente">
+                                    </div>
+                                    
                                 </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
-                                        <i class="fas fa-tag mr-2"></i>Nombre del Artículo
-                                    </label>
-                                    <input id="nombre"
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="text" name="nombre" readonly>
-                                </div>
+                                
+                               
                             </div>
-
-                            <!-- Columna 2: Detalles de venta -->
-                            <div class="w-full md:w-1/3 px-3 mb-6">
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad">
-                                        <i class="fas fa-boxes mr-2"></i>Cantidad
-                                    </label>
-                                    {{-- <input class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
-                                    type="number" 
-                                    name="cantidad" 
-                                    required> --}}
-                                    <input
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="number" name="articulos[0][cantidad]" min="1" required>
-
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="valor_unitario">
-                                        <i class="fas fa-dollar-sign mr-2"></i>Valor Unitario
-                                    </label>
-                                    {{-- <input
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="number" name="valor_unitario" step="0.01" required> --}}
-                                    {{-- <input id="valor_unitario"
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="number" name="valor_unitario" step="0.01"> --}}
-                                    <input
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        id="valor_unitario" type="number" name="articulos[0][valor_unitario]"
-                                        min="0" step="0.01" required>
-
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="descuento">
-                                        <i class="fas fa-percentage mr-2"></i>Descuento
-                                    </label>
-                                    {{-- <input
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="number" name="descuento" step="0.01"> --}}
-                                    <input
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="number" name="articulos[0][descuento]" min="0" step="0.01">
-
-                                </div>
-                            </div>
-
-
-
-
-                            <!-- Columna 3: Tipo de pago -->
-                            <div class="w-full md:w-1/3 px-3 mb-6">
+                             <!-- Columna 3: Tipo de pago -->
+                             <div class="w-full md:w-1/3 px-3 mb-6">
                                 <div class="mb-4">
                                     <label class="block text-pink-600 text-sm font-bold mb-2" for="tipo">
                                         <i class="fas fa-money-bill-wave mr-2"></i>Tipo
@@ -177,23 +126,96 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mb-4">
-                                    <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
-                                        <i class="fas fa-tag mr-2"></i>Nombre del Cliente
-                                    </label>
-                                    <input 
-                                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                        type="text" name="nombre_cliente">
-                                </div>
-                            </div>
+                                
+
+                            </div> 
                         </div>
-                        <div class="flex justify-end mt-2">
-                            <button type="button"
-                                class="eliminar-venta text-pink-500 hover:text-pink-700 font-medium text-sm transition duration-300"
-                                onclick="eliminarVenta(this)">
-                                <i class="fas fa-trash mr-1"></i>Eliminar esta venta
-                            </button>
+                        <hr>
+                        <br>
+                     <!-- Columna 2: Detalles de venta -->
+                     <div class="flex flex-wrap space-x-4">
+                        <div class="mb-4">
+                            <label class="block text-pink-600 text-sm font-bold mb-2" for="codigo">
+                                <i class="fas fa-barcode mr-2"></i>Código
+                            </label>
+                            {{-- <input id="codigo" 
+                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
+                            type="text" 
+                            name="codigo" 
+                            required> --}}
+                            <input id="codigo"
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="text" name="articulos[0][codigo]" onchange="obtenerArticulo2()" required>
+
+                            <script>
+                                function obtenerArticulo2() {
+                                    var codigo = document.getElementById("codigo").value;
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState == 4 && xhr.status == 200) {
+                                            var response = JSON.parse(xhr.responseText);
+                                            document.getElementById("nombre").value = response.nombre;
+                                            document.getElementById("valor_unitario").value = response.valor_venta;
+                                        }
+                                    };
+                                    xhr.send();
+                                }
+                            </script>
                         </div>
+
+                        <div class="mb-4">
+                            <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                <i class="fas fa-tag mr-2"></i>Nombre del Artículo
+                            </label>
+                            <input id="nombre"
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="text" name="nombre" readonly>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad">
+                                <i class="fas fa-boxes mr-2"></i>Cantidad
+                            </label>
+                            {{-- <input class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
+                            type="number" 
+                            name="cantidad" 
+                            required> --}}
+                            <input
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="number" name="articulos[0][cantidad]" min="1" required>
+
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-pink-600 text-sm font-bold mb-2" for="valor_unitario">
+                                <i class="fas fa-dollar-sign mr-2"></i>Valor Unitario
+                            </label>
+                            {{-- <input
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="number" name="valor_unitario" step="0.01" required> --}}
+                            {{-- <input id="valor_unitario"
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="number" name="valor_unitario" step="0.01"> --}}
+                            <input
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                id="valor_unitario" type="number" name="articulos[0][valor_unitario]"
+                                min="0" step="0.01" required>
+
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-pink-600 text-sm font-bold mb-2" for="descuento">
+                                <i class="fas fa-percentage mr-2"></i>Descuento
+                            </label>
+                            {{-- <input
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="number" name="descuento" step="0.01"> --}}
+                            <input
+                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                type="number" name="articulos[0][descuento]" min="0" step="0.01">
+
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -364,11 +386,13 @@
 
             articuloDiv.innerHTML = `
        <div class="venta-form mb-8 pb-6 border-b border-pink-200">
-            <div class="flex flex-wrap -mx-3">
+          
                 <!-- Columna 1: Información básica -->
-                <div class="w-full md:w-1/3 px-3 mb-6">
-                    
-                    <div class="mb-4">
+               
+
+                <!-- Columna 2: Detalles de venta -->
+                <div class="flex flex-wrap space-x-4">
+                     <div class="mb-4">
                         <label class="block text-pink-600 text-sm font-bold mb-2" for="codigo_${index}">
                             <i class="fas fa-barcode mr-2"></i>Código
                         </label>
@@ -385,10 +409,6 @@
                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                             type="text" name="articulos[${index}][nombre]" readonly>
                     </div>
-                </div>
-
-                <!-- Columna 2: Detalles de venta -->
-                <div class="w-full md:w-1/3 px-3 mb-6">
                     <div class="mb-4">
                         <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad_${index}">
                             <i class="fas fa-boxes mr-2"></i>Cantidad
@@ -426,7 +446,7 @@
             container.appendChild(articuloDiv);
         });
 
-       
+
 
 
         function obtenerArticulo(index) {
@@ -444,51 +464,46 @@
         }
     </script>
     <script>
-document.getElementById('ventaForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    try {
-        const response = await fetch("{{ route('ventas.store') }}", {
-            method: 'POST',
-            body: new FormData(this),
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        document.getElementById('ventaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            try {
+                const response = await fetch("{{ route('ventas.store') }}", {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
+
+                if (response.ok) {
+                    await Swal.fire({
+                        title: '¡Éxito!',
+                        text: 'Venta registrada correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#ec4899'
+                    });
+
+                    window.location.href = "{{ route('ventas.index') }}";
+                } else {
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: 'Hubo un problema al registrar la venta',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#ec4899'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
         });
 
-        if (response.ok) {
-            await Swal.fire({
-                title: '¡Éxito!',
-                text: 'Venta registrada correctamente',
-                icon: 'success',
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#ec4899'
-            });
-            
-            window.location.href = "{{ route('ventas.index') }}";
-        } else {
-            Swal.fire({
-                title: '¡Error!',
-                text: 'Hubo un problema al registrar la venta',
-                icon: 'error',
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#ec4899'
-            });
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+        
 
-function toggleCreditoFields() {
-    const creditoFields = document.getElementById('credito-fields');
-    const tipoVenta = document.getElementById('tipo_venta').value;
-    
-    creditoFields.style.display = tipoVenta === 'credito' ? 'block' : 'none';
-}
-
-document.getElementById('tipo_venta').addEventListener('change', toggleCreditoFields);
-</script>
+        document.getElementById('tipo_venta').addEventListener('change', toggleCreditoFields);
+    </script>
 @endsection
 {{-- <!DOCTYPE html>
 <html lang="en">
