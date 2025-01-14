@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/obtener-articulo-por-codigo/{codigo}', [ArticuloController::class, 'obtenerArticuloPorCodigo']);
+
+    Route::post('/ventas/cambiar-estado/{id}', [VentaController::class, 'cambiarEstado']);
 });
 
 // Rutas de autenticación generadas automáticamente

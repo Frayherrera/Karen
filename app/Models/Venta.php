@@ -37,4 +37,15 @@ class Venta extends Model
     {
         return $this->belongsToMany(Articulo::class, 'articulo_venta')->withPivot('cantidad', 'valor_unitario', 'descuento')->withTimestamps();
     }
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($venta) {
+            if ($venta->tipo === 'contado') {
+                $venta->estado = 'pagado';
+            } else {
+                $venta->estado = 'no pagado';
+            }
+        });
+    }
 }

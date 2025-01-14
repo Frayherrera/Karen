@@ -203,9 +203,9 @@
                     <td class="monospace">{{ $articulo->codigo }}</td>
                     <td>{{ $articulo->nombre }}</td>
                     <td class="monospace">{{ $articulo->pivot->cantidad }}</td>
-                    <td class="monospace">${{ number_format($articulo->pivot->valor_unitario, 2) }}</td>
-                    <td class="monospace">${{ number_format($articulo->pivot->descuento, 2) }}</td>
-                    <td class="monospace">${{ number_format(($articulo->pivot->cantidad * $articulo->pivot->valor_unitario) - $articulo->pivot->descuento, 2) }}</td>
+                    <td class="monospace">${{ number_format($articulo->pivot->valor_unitario) }}</td>
+                    <td class="monospace">${{ number_format($articulo->pivot->descuento) }}</td>
+                    <td class="monospace">${{ number_format(($articulo->pivot->cantidad * $articulo->pivot->valor_unitario) - $articulo->pivot->descuento) }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -214,21 +214,19 @@
         <div class="calculations">
             <div class="calculation-row">
                 <span>Subtotal:</span>
-                <span class="valor">${{ number_format($venta->subtotal, 2) }}</span>
+                <span class="valor">${{ number_format($venta->subtotal) }}</span>
             </div>
             <div class="calculation-row">
                 <span>Crédito ({{ $venta->porcentaje_credito }}%):</span>
-                <span class="valor">${{ number_format($venta->valor_credito, 2) }}</span>
+                <span class="valor">${{ number_format($venta->valor_credito) }}</span>
             </div>
             <div class="calculation-row">
                 <span>Total Final:</span>
-                <span class="valor">${{ number_format($venta->valor_total, 2) }}</span>
+                <span class="valor">${{ number_format($venta->valor_total) }}</span>
             </div>
         </div>
 
-        <div class="footer">
-            <p>Gracias por su compra</p>
-        </div>
+       
     </div>
 </body>
 </html>
