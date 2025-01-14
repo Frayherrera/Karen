@@ -92,7 +92,7 @@
 
         <div class="totals">
             <p><strong>Valor Total:</strong> {{ $venta->valor_total }}</p>
-            <p><strong>Utilidad:</strong> {{ $venta->utilidad }}</p>
+        
         </div>
     </div>
 </body>

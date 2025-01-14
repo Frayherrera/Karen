@@ -53,7 +53,7 @@
                                     }
                                 </script>
                                 <div>
-                                    <h1 class="block text-pink-600  font-bold ">datos del cliente</h1>
+                                    <h1 class="block text-pink-600  font-bold ">Datos del cliente</h1>
                                     <div class="mb-4">
                                         <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
                                             <i class="fas fa-tag mr-2"></i>Nombre
@@ -225,12 +225,12 @@
                 <div class="flex items-center justify-between mt-6">
                     {{-- <button type="button" onclick="agregarNuevaVenta()"
                         class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-50 transition duration-300 transform hover:-translate-y-1">
-                        <i class="fas fa-plus mr-2"></i>Agregar Otra Venta
+                        <i class="fas fa-plus mr-2"></i>Agregar Otro Articulo
                     </button> --}}
 
                     <button
                         class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-50 transition duration-300 transform hover:-translate-y-1"
-                        type="button" id="add-articulo"> <i class="fas fa-plus mr-2"></i>Agregar Otra Venta</button>
+                        type="button" id="add-articulo"> <i class="fas fa-plus mr-2"></i>Agregar Otro Articulo</button>
 
 
                     <div>
