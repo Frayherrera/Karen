@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-dancing text-center my-8 text-pink-600" style="font-family: 'Dancing Script', cursive";>Crear Artículo</h1>
+    <h1 class="text-3xl font-dancing text-center my-8 text-pink-600" style="font-family: 'Dancing Script', cursive";>CREAR ARTÍCULO</h1>
 
     @if ($errors->any())
     <script>

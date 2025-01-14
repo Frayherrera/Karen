@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class VentaController extends Controller
 {
+    public function create()
+{
+    // Obtener el último ID y sumarle 1
+    $lastId = Venta::max('id');
+    $nextId = $lastId ? $lastId + 1 : 1;
+    
+    return view('ventas.create', compact('nextId'));
+}
     public function getArticulo(Request $request)
     {
         $articulo = Articulo::where('codigo', $request->codigo)->first();
@@ -24,12 +32,13 @@ class VentaController extends Controller
         return response()->json(['success' => false, 'message' => 'Artículo no encontrado.']);
     }
    
+    
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'nombre_cliente' => 'required|string|max:255', // Nueva regla de validación
-            'direccion_cliente' => 'required|string|max:255', // Nueva regla de validación
-            'cedula_cliente' => 'required|string|max:255', // Nueva regla de validación
-            'telefono_cliente' => 'required|string|max:255', // Nueva regla de validación
+            'nombre_cliente' => 'required|string|max:255',
+            'direccion_cliente' => 'required|string|max:255',
+            'cedula_cliente' => 'required|string|max:255',
+            'telefono_cliente' => 'required|string|max:255',
             'articulos' => 'required|array',
             'articulos.*.codigo' => 'required|exists:articulos,codigo',
             'articulos.*.cantidad' => 'required|integer|min:1',
@@ -46,19 +55,21 @@ class VentaController extends Controller
     
         // Crear la venta en la tabla `ventas`
         $venta = Venta::create([
-            'nombre_cliente' => $request->nombre_cliente, // Agregar el nombre del cliente
-            'direccion_cliente' => $request->direccion_cliente, // Agregar el nombre del cliente
-            'cedula_cliente' => $request->cedula_cliente, // Agregar el nombre del cliente
-            'telefono_cliente' => $request->telefono_cliente, // Agregar el nombre del cliente
-
+            'nombre_cliente' => $request->nombre_cliente,
+            'direccion_cliente' => $request->direccion_cliente,
+            'cedula_cliente' => $request->cedula_cliente,
+            'telefono_cliente' => $request->telefono_cliente,
             'tipo' => $request->tipo,
             'dias_credito' => $request->tipo === 'credito' ? $request->dias_credito : null,
-            'valor_total' => 0, // Valor total inicializado en 0, lo actualizaremos más tarde
-            'utilidad' => 0, // Utilidad inicializada en 0, la actualizaremos más tarde
+            'porcentaje_credito' => $request->tipo === 'credito' ? $request->porcentaje_credito : 0,
+            'valor_total' => 0,
+            'subtotal' => 0,
+            'valor_credito' => 0,
+            'utilidad' => 0,
             'fecha_venta' => now(),
         ]);
     
-        $valor_total = 0;
+        $subtotal = 0;
         $utilidad_total = 0;
     
         foreach ($request->articulos as $articuloData) {
@@ -69,9 +80,10 @@ class VentaController extends Controller
             }
     
             $valor_articulo = $articuloData['cantidad'] * $articuloData['valor_unitario'];
+            $valor_articulo -= $articuloData['descuento'] ?? 0;
             $utilidad_articulo = (($articuloData['valor_unitario'] - $articulo->valor_costo) * $articuloData['cantidad']) - ($articuloData['descuento'] ?? 0);
     
-            $valor_total += $valor_articulo;
+            $subtotal += $valor_articulo;
             $utilidad_total += $utilidad_articulo;
     
             // Reducir el stock del artículo
@@ -90,25 +102,26 @@ class VentaController extends Controller
             ]);
         }
     
-        // Agregar porcentaje adicional si la venta es a crédito
+        // Calcular valor del crédito si aplica
+        $valor_credito = 0;
         if ($request->tipo === 'credito') {
-            $porcentaje_adicional = ($valor_total * $request->porcentaje_credito) / 100;
-            $valor_total += $porcentaje_adicional;
-            $utilidad_total += $porcentaje_adicional;
+            $valor_credito = ($subtotal * $request->porcentaje_credito) / 100;
+            $utilidad_total += $valor_credito;
         }
     
-        // Restar descuento si se aplica
-        $valor_total -= $request->descuento ?? 0;
+        // Calcular valor total
+        $valor_total = $subtotal + $valor_credito;
     
         // Actualizar la venta con los valores finales
         $venta->update([
+            'subtotal' => $subtotal,
+            'valor_credito' => $valor_credito,
             'valor_total' => $valor_total,
             'utilidad' => $utilidad_total,
         ]);
     
         return redirect()->route('ventas.index')->with('success', 'Venta exitosa. Código de venta: ' . $venta->id);
     }
-    
     
     public function generarTicket($id)
     {
@@ -138,4 +151,5 @@ class VentaController extends Controller
     
     return view('ventas.index', compact('ventas'));
 }
+
 }

@@ -23,8 +23,8 @@
                         <td class="py-4 px-6">{{ $articulo->codigo }}</td>
                         <td class="py-4 px-6">{{ $articulo->nombre }}</td>
                         <td class="py-4 px-6">{{ $articulo->categoria->nombre ?? 'Sin categoría' }}</td>
-                        <td class="py-4 px-6">${{ number_format($articulo->valor_costo, 2) }}</td>
-                        <td class="py-4 px-6">${{ number_format($articulo->valor_venta, 2) }}</td>
+                        <td class="py-4 px-6">${{ number_format($articulo->valor_costo, 0) }}</td>
+                        <td class="py-4 px-6">${{ number_format($articulo->valor_venta, 0) }}</td>
                         <td class="py-4 px-6">{{ $articulo->stock }}</td>
                         <td class="py-4 px-6">
                             @if ($articulo->stock > 15)
@@ -49,11 +49,11 @@
                                     <i class="fas fa-edit text-lg"></i>
                                 </a>
                                 
-                                <button onclick="openVentaModal('{{ $articulo->codigo }}', '{{ $articulo->nombre }}')"
+                                {{-- <button onclick="openVentaModal('{{ $articulo->codigo }}', '{{ $articulo->nombre }}')"
                                     class="text-pink-500 hover:text-pink-700 transition duration-150"
                                     title="Vender">
                                     <i class="fas fa-shopping-cart text-lg"></i>
-                                </button>
+                                </button> --}}
 
                                 <button onclick="openModal('{{ $articulo->codigo }}', '{{ $articulo->nombre }}')"
                                     class="text-pink-500 hover:text-pink-700 transition duration-150"

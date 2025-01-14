@@ -6,22 +6,19 @@
             <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
             <input required="" class="input" type="password" name="password" id="password" placeholder="Password">
             <input class="login-button" type="submit" value="Iniciar">
-    
         </form>
     </div>
 </x-guest-layout>
 
-
 <style>
-    /* From Uiverse.io by Smit-Prajapati */
     .container {
         max-width: 350px;
-        background: #F8F9FD;
-        background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%);
+        background: #FDF2F8;
+        background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(251, 244, 247) 100%);
         border-radius: 40px;
         padding: 25px 35px;
         border: 5px solid rgb(255, 255, 255);
-        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
+        box-shadow: rgba(215, 133, 189, 0.878) 0px 30px 30px -20px;
         margin: 20px;
     }
 
@@ -29,7 +26,7 @@
         text-align: center;
         font-weight: 900;
         font-size: 30px;
-        color: rgb(16, 137, 211);
+        color: rgb(219, 39, 119);
     }
 
     .form {
@@ -43,7 +40,7 @@
         padding: 15px 20px;
         border-radius: 20px;
         margin-top: 15px;
-        box-shadow: #cff0ff 0px 10px 10px -5px;
+        box-shadow: #ffd1e8 0px 10px 10px -5px;
         border-inline: 2px solid transparent;
     }
 
@@ -57,7 +54,7 @@
 
     .form .input:focus {
         outline: none;
-        border-inline: 2px solid #12B1D1;
+        border-inline: 2px solid #EC4899;
     }
 
     .form .forgot-password {
@@ -68,35 +65,36 @@
 
     .form .forgot-password a {
         font-size: 11px;
-        color: #0099ff;
+        color: #DB2777;
         text-decoration: none;
     }
     
-    .login-button:hover{
+    .login-button:hover {
         cursor: pointer;
     }
+
     .form .login-button {
         display: block;
         width: 100%;
         font-weight: bold;
-        background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
+        background: linear-gradient(45deg, rgb(219, 39, 119) 0%, rgb(236, 72, 153) 100%);
         color: white;
         padding-block: 15px;
         margin: 20px auto;
         border-radius: 20px;
-        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+        box-shadow: rgba(215, 133, 189, 0.878) 0px 20px 10px -15px;
         border: none;
         transition: all 0.2s ease-in-out;
     }
 
     .form .login-button:hover {
         transform: scale(1.03);
-        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 23px 10px -20px;
+        box-shadow: rgba(215, 133, 189, 0.878) 0px 23px 10px -20px;
     }
 
     .form .login-button:active {
         transform: scale(0.95);
-        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 15px 10px -10px;
+        box-shadow: rgba(215, 133, 189, 0.878) 0px 15px 10px -10px;
     }
 
     .social-account-container {
@@ -119,7 +117,7 @@
     }
 
     .social-account-container .social-accounts .social-button {
-        background: linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(112, 112, 112) 100%);
+        background: linear-gradient(45deg, rgb(219, 39, 119) 0%, rgb(236, 72, 153) 100%);
         border: 5px solid white;
         padding: 5px;
         border-radius: 50%;
@@ -127,7 +125,7 @@
         aspect-ratio: 1;
         display: grid;
         place-content: center;
-        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 12px 10px -8px;
+        box-shadow: rgba(215, 133, 189, 0.878) 0px 12px 10px -8px;
         transition: all 0.2s ease-in-out;
     }
 
@@ -152,7 +150,7 @@
 
     .agreement a {
         text-decoration: none;
-        color: #0099ff;
+        color: #DB2777;
         font-size: 9px;
     }
 </style>

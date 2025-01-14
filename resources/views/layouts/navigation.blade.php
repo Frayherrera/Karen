@@ -14,7 +14,7 @@
             <!-- Brand Name -->
             <div class="hidden sm:flex sm:items-center">
                 <h1 class="text-4xl font-bold text-pink-600 font-cursive transition-all duration-300 hover:text-pink-700 hover:scale-110 hover:text-shadow" style="font-family: 'Dancing Script', cursive; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
-                    Curiosidades Rochi
+                    Curiosidades Rochy
                 </h1>
             </div>
 

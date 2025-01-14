@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Curiosidades Rochi') }}</title>
+    <title>{{ config('app.name', 'Curiosidades Rochy') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -107,7 +107,7 @@
         <!-- Optional Footer -->
         <footer class="bg-white/80 border-t border-pink-100 py-6 mt-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-pink-600">
-                <p class="text-sm">© {{ date('Y') }} Curiosidades Rochi. Con 💖 para ti.</p>
+                <p class="text-sm">© {{ date('Y') }} Curiosidades Rochy. Con 💖 para ti.</p>
             </div>
         </footer>
     </div>

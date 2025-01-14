@@ -24,9 +24,14 @@
             <a href="{{ route('ventas.index') }}" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
                 <i class="fas fa-shopping-cart mr-2"></i>Ver ventas
             </a>
-            <h1 class="text-4xl font-bold text-center mb-6 text-pink-600" style="font-family: 'Dancing Script', cursive;">
-                Nueva Venta</h1>
-
+                <div class="flex justify-center items-center gap-4 mb-6">
+                    <h1 class="text-4xl font-bold text-center text-pink-600" style="font-family: 'Dancing Script', cursive;">
+                        FACTURA DE VENTA
+                    </h1>
+                    <span class="text-4xl font-bold text-pink-600" style="font-family: 'Dancing Script', cursive;">
+                        N° {{ str_pad($nextId, 5, '0', STR_PAD_LEFT) }}
+                    </span>
+                </div>
             <form id="ventaForm" action="{{ route('ventas.store') }}" method="POST"
                 class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
                 @csrf
@@ -54,6 +59,7 @@
                                 </script>
                                 <div>
                                     <h1 class="block text-pink-600  font-bold ">Datos del cliente</h1>
+                                    <br>
                                     <div class="mb-4">
                                         <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
                                             <i class="fas fa-tag mr-2"></i>Nombre
@@ -92,7 +98,8 @@
                                
                             </div>
                              <!-- Columna 3: Tipo de pago -->
-                             <div class="w-full md:w-1/3 px-3 mb-6">
+                             <div class="w-full md:w-1/3 px-3 mb-6 ">
+                            <br><br>
                                 <div class="mb-4">
                                     <label class="block text-pink-600 text-sm font-bold mb-2" for="tipo">
                                         <i class="fas fa-money-bill-wave mr-2"></i>Tipo
@@ -230,7 +237,7 @@
 
                     <button
                         class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-50 transition duration-300 transform hover:-translate-y-1"
-                        type="button" id="add-articulo"> <i class="fas fa-plus mr-2"></i>Agregar Otro Articulo</button>
+                        type="button" id="add-articulo"> <i class="fas fa-plus mr-2"></i>Agregar Otro ArtÍculo</button>
 
 
                     <div>
@@ -508,56 +515,3 @@
         document.getElementById('tipo_venta').addEventListener('change', toggleCreditoFields);
     </script>
 @endsection
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Venta</title>
-</head>
-
-<body>
-    <h1>Crear Venta</h1>
-    <form action="{{ route('ventas.store') }}" method="POST">
-        @csrf
-        <div id="articulos-container">
-            <div class="articulo">
-                <label for="codigo">Código del Artículo:</label>
-                <input type="text" name="articulos[0][codigo]" required>
-
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" name="articulos[0][cantidad]" min="1" required>
-
-                <label for="valor_unitario">Valor Unitario:</label>
-                <input type="number" name="articulos[0][valor_unitario]" min="0" step="0.01" required>
-
-                <label for="descuento">Descuento:</label>
-                <input type="number" name="articulos[0][descuento]" min="0" step="0.01">
-            </div>
-        </div>
-        <button type="button" id="add-articulo">Agregar Artículo</button>
-       
-
-        <label for="tipo">Tipo de Venta:</label>
-        <select name="tipo" required>
-            <option value="contado">Contado</option>
-            <option value="credito">Crédito</option>
-        </select>
-
-        <label for="dias_credito">Días de Crédito:</label>
-        <input type="number" name="dias_credito" min="1">
-
-        <label for="porcentaje_credito">Porcentaje Crédito:</label>
-        <input type="number" name="porcentaje_credito" min="0" max="100">
-
-        <label for="descuento">Descuento Total:</label>
-        <input type="number" name="descuento" min="0" step="0.01">
-
-        <button type="submit">Crear Venta</button>
-    </form>
-
-    
-</body>
-
-</html> --}}

@@ -29,8 +29,8 @@
 
                         <td class="border-t px-4 py-3">{{ $venta->fecha_venta }}</td>
                         <td class="border-t px-4 py-3">{{ ucfirst($venta->tipo) }}</td>
-                        <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 2) }}</td>
-                        <td class="border-t px-4 py-3">${{ number_format($venta->valor_total, 2) }}</td>
+                        <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 0) }}</td>
+                        <td class="border-t px-4 py-3">${{ number_format($venta->valor_total, 0) }}</td>
                         <td class="border-t px-4 py-3">
                             <a href="{{ route('ventas.ticket', $venta->id) }}" 
                                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded text-sm custom-shadow btn-hover-effect">

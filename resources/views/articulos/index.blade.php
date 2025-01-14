@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold text-center my-8 text-pink-600 font-cursive" style="font-family: 'Dancing Script', cursive;">Lista de Artículos</h1>
+    <h1 class="text-3xl font-bold text-center my-8 text-pink-600 font-cursive" style="font-family: 'Dancing Script', cursive;">LISTA DE ARTÍCULOS</h1>
 
     <!-- Formulario de búsqueda -->
     <form method="GET" action="{{ route('articulos.index') }}" class="mb-6" id="search-form">
@@ -10,9 +10,9 @@
             <input type="text" name="q" id="search-input" value="{{ old('q', $query ?? '') }}" 
                    placeholder="Buscar artículos..." 
                    class="border border-pink-200 p-3 w-full rounded-l focus:ring-pink-300 focus:border-pink-300 transition-all duration-300 placeholder-pink-300">
-            <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-r transition-all duration-300">
+            {{-- <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-r transition-all duration-300">
                 <i class="fas fa-search mr-2"></i>Buscar
-            </button>
+            </button> --}}
         </div>
     </form>
 

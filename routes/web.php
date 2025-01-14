@@ -43,9 +43,10 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para crear una salida (venta)
     Route::get('/salida', function () {
-
-        $articulos = Articulo::all(); // Obtén todos los artículos
-        return view('ventas.create', compact('articulos'));
+        $articulos = Articulo::all();
+        $lastId = \App\Models\Venta::max('id');
+        $nextId = $lastId ? $lastId + 1 : 1;
+        return view('ventas.create', compact('articulos', 'nextId'));
     })->name('salida');
 
     // Ruta para almacenar una nueva categoría

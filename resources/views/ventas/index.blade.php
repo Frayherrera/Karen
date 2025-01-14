@@ -52,7 +52,7 @@
     @endif
 
     <div class="container mt-5">
-        <h1 class="text-4xl font-bold text-center my-6 dancing-script text-pink-600">Lista de Ventas</h1>
+        <h1 class="text-4xl font-bold text-center my-6 dancing-script text-pink-600">LISTA DE VENTAS</h1>
         
         <div class="flex gap-4 mb-6">
             <a href="{{ url('/articulos') }}" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded custom-shadow btn-hover-effect">

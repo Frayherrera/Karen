@@ -2,97 +2,232 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ticket de Venta</title>
+    <title>Factura de Venta</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Inter:wght@400;600&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f4f4f4;
             color: #333;
-        }
-        h1 {
-            color: #4c6aaf;
-            text-align: center;
-        }
-        p {
-            font-size: 14px;
             line-height: 1.6;
         }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ec4899; /* Pink-500 */
+        }
+
         .container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+
+        .header {
+            border-bottom: 2px solid #ec4899;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .factura-numero {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border: 1px solid #ec4899;
+            display: inline-block;
+            padding: 5px 10px;
+            color: #ec4899;
+        }
+
+        .info-empresa {
+            float: left;
+            width: 50%;
+        }
+
+        .info-factura {
+            float: right;
+            width: 50%;
+            text-align: right;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .info-cliente {
+            border: 1px solid #fbcfe8; /* Pink-200 */
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #fdf2f8; /* Pink-50 */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            font-size: 0.9em;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+
         th, td {
-            padding: 10px;
+            border: 1px solid #fbcfe8; /* Pink-200 */
+            padding: 12px;
             text-align: left;
         }
+
         th {
-            background-color: #4c6aaf;
-            color: #fff;
+            background-color: #fdf2f8; /* Pink-50 */
+            font-weight: 600;
+            color: #be185d; /* Pink-700 */
         }
+
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #fdf2f8; /* Pink-50 */
         }
+
         .totals {
             margin-top: 20px;
             text-align: right;
+            border-top: 2px solid #ec4899;
+            padding-top: 20px;
+        }
+
+        .monospace {
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .valor {
+            font-weight: 600;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .calculations {
+            background-color: #fdf2f8; /* Pink-50 */
+            border: 1px solid #fbcfe8; /* Pink-200 */
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .calculation-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #fbcfe8; /* Pink-200 */
+        }
+
+        .calculation-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #fbcfe8;
+            font-size: 0.8em;
+            text-align: center;
+            color: #be185d; /* Pink-700 */
+        }
+
+        @media print {
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 20px;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            .totals, .calculations {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Ticket de Venta</h1>
-        <p><strong>Código de Venta:</strong> {{ $venta->id }}</p>
-        <p><strong>Fecha de Venta:</strong> {{ $venta->fecha_venta }}</p>
-        <p><strong>Tipo de Venta:</strong> {{ $venta->tipo }}</p>
-        <p><strong>Nombre Cliente:</strong> {{ $venta->nombre_cliente }}</p>
-        <p><strong>Cedula Cliente:</strong> {{ $venta->cedula_cliente }}</p>
-        <p><strong>Dirección Cliente:</strong> {{ $venta->direccion_cliente }}</p>
-        <p><strong>Telefono Cliente:</strong> {{ $venta->telefono_cliente }}</p>
+        <div class="header clearfix">
+            <div class="info-empresa">
+                <h1>FACTURA</h1>
+                <div class="factura-numero">N° {{ str_pad($venta->id, 8, '0', STR_PAD_LEFT) }}</div>
+            </div>
+            <div class="info-factura">
+                <p><strong>Fecha:</strong> {{ $venta->fecha_venta }}</p>
+                <p><strong>Tipo de Venta:</strong> {{ $venta->tipo }}</p>
+            </div>
+        </div>
 
+        <div class="info-cliente">
+            <h3>DATOS DEL CLIENTE</h3>
+            <p><strong>Nombre:</strong> {{ $venta->nombre_cliente }}</p>
+            <p><strong>C.C/NIT:</strong> {{ $venta->cedula_cliente }}</p>
+            <p><strong>Dirección:</strong> {{ $venta->direccion_cliente }}</p>
+            <p><strong>Teléfono:</strong> {{ $venta->telefono_cliente }}</p>
+        </div>
 
-        
         <table>
             <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Valor Unitario</th>
-                    <th>Descuento</th>
-                    <th>Subtotal</th>
+                    <th>CÓDIGO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>CANT.</th>
+                    <th>V. UNIT</th>
+                    <th>DESC.</th>
+                    <th>SUBTOTAL</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($articulos as $articulo)
                 <tr>
-                    <td>{{ $articulo->codigo }}</td>
+                    <td class="monospace">{{ $articulo->codigo }}</td>
                     <td>{{ $articulo->nombre }}</td>
-                    <td>{{ $articulo->pivot->cantidad }}</td>
-                    <td>{{ $articulo->pivot->valor_unitario }}</td>
-                    <td>{{ $articulo->pivot->descuento }}</td>
-                    <td>{{ ($articulo->pivot->cantidad * $articulo->pivot->valor_unitario) - $articulo->pivot->descuento }}</td>
+                    <td class="monospace">{{ $articulo->pivot->cantidad }}</td>
+                    <td class="monospace">${{ number_format($articulo->pivot->valor_unitario, 2) }}</td>
+                    <td class="monospace">${{ number_format($articulo->pivot->descuento, 2) }}</td>
+                    <td class="monospace">${{ number_format(($articulo->pivot->cantidad * $articulo->pivot->valor_unitario) - $articulo->pivot->descuento, 2) }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <div class="totals">
-            <p><strong>Valor Total:</strong> {{ $venta->valor_total }}</p>
-        
+        <div class="calculations">
+            <div class="calculation-row">
+                <span>Subtotal:</span>
+                <span class="valor">${{ number_format($venta->subtotal, 2) }}</span>
+            </div>
+            <div class="calculation-row">
+                <span>Crédito ({{ $venta->porcentaje_credito }}%):</span>
+                <span class="valor">${{ number_format($venta->valor_credito, 2) }}</span>
+            </div>
+            <div class="calculation-row">
+                <span>Total Final:</span>
+                <span class="valor">${{ number_format($venta->valor_total, 2) }}</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Gracias por su compra</p>
         </div>
     </div>
 </body>
