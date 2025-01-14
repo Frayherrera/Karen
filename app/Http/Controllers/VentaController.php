@@ -35,7 +35,7 @@ class VentaController extends Controller
             'articulos.*.cantidad' => 'required|integer|min:1',
             'articulos.*.valor_unitario' => 'required|numeric|min:0',
             'tipo' => 'required|in:contado,credito',
-            'dias_credito' => 'nullable|required_if:tipo,credito|integer|min:1',
+            'dias_credito' => 'nullable|integer|min:1',
             'porcentaje_credito' => 'nullable|required_if:tipo,credito|integer|min:0|max:100',
             'descuento' => 'nullable|numeric|min:0',
         ]);

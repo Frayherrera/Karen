@@ -21,6 +21,9 @@
         @endif
 
         <div class="container mx-auto px-4">
+            <a href="{{ route('ventas.index') }}" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
+                <i class="fas fa-shopping-cart mr-2"></i>Ver ventas
+            </a>
             <h1 class="text-4xl font-bold text-center mb-6 text-pink-600" style="font-family: 'Dancing Script', cursive;">
                 Nueva Venta</h1>
 
@@ -103,14 +106,14 @@
                                 </div>
 
                                 <div id="credito-fields" style="display: none;">
-                                    <div class="mb-4">
+                                    {{-- <div class="mb-4">
                                         <label class="block text-pink-600 text-sm font-bold mb-2" for="dias_credito">
                                             <i class="fas fa-calendar-alt mr-2"></i>Días de crédito
                                         </label>
                                         <input
                                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                             type="number" name="dias_credito">
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mb-4">
                                         <label class="block text-pink-600 text-sm font-bold mb-2" for="porcentaje_credito">
