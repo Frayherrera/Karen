@@ -21,17 +21,18 @@
         @endif
 
         <div class="container mx-auto px-4">
-            <a href="{{ route('ventas.index') }}" class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
+            <a href="{{ route('ventas.index') }}"
+                class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded inline-flex items-center transition-all duration-300 shadow-md hover:shadow-lg">
                 <i class="fas fa-shopping-cart mr-2"></i>Ver ventas
             </a>
-                <div class="flex justify-center items-center gap-4 mb-6">
-                    <h1 class="text-4xl font-bold text-center text-pink-600" style="font-family: 'Dancing Script', cursive;">
-                        FACTURA DE VENTA
-                    </h1>
-                    <span class="text-4xl font-bold text-pink-600" style="font-family: 'Dancing Script', cursive;">
-                        N° {{ str_pad($nextId, 5, '0', STR_PAD_LEFT) }}
-                    </span>
-                </div>
+            <div class="flex justify-center items-center gap-4 mb-6">
+                <h1 class="text-4xl font-bold text-center text-pink-600" style="font-family: 'Dancing Script', cursive;">
+                    FACTURA DE VENTA
+                </h1>
+                <span class="text-4xl font-bold text-pink-600" style="font-family: 'Dancing Script', cursive;">
+                    N° {{ str_pad($nextId, 5, '0', STR_PAD_LEFT) }}
+                </span>
+            </div>
             <form id="ventaForm" action="{{ route('ventas.store') }}" method="POST"
                 class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
                 @csrf
@@ -92,14 +93,14 @@
                                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                             type="text" name="telefono_cliente">
                                     </div>
-                                    
+
                                 </div>
-                                
-                               
+
+
                             </div>
-                             <!-- Columna 3: Tipo de pago -->
-                             <div class="w-full md:w-1/3 px-3 mb-6 ">
-                            <br><br>
+                            <!-- Columna 3: Tipo de pago -->
+                            <div class="w-full md:w-1/3 px-3 mb-6 ">
+                                <br><br>
                                 <div class="mb-4">
                                     <label class="block text-pink-600 text-sm font-bold mb-2" for="tipo">
                                         <i class="fas fa-money-bill-wave mr-2"></i>Tipo
@@ -135,97 +136,152 @@
                                             <option value="20">20%</option>
                                         </select>
                                     </div>
+
                                 </div>
                                 
+                                    <div class="w-full md:w-1/3 px-3">
+                                        <div class="mb-4">
+                                            <label class="block text-pink-600 text-sm font-bold mb-2" for="subtotal">
+                                                <i class="fas fa-calculator mr-2"></i>Subtotal
+                                            </label>
+                                            <input id="subtotal"
+                                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                                type="text" readonly>
+                                        </div>
 
-                            </div> 
+                                        <div class="mb-4">
+                                            <label class="block text-pink-600 text-sm font-bold mb-2" for="total">
+                                                <i class="fas fa-coins mr-2"></i>Total
+                                            </label>
+                                            <input id="total"
+                                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                                type="text" readonly>
+                                        </div>
+                                    </div>
+                                
+                                <script>
+                                    document.addEventListener('input', calcularTotales);
+
+                                    function calcularTotales() {
+                                        let subtotal = 0;
+
+                                        // Iterar sobre todos los formularios de artículos
+                                        document.querySelectorAll('.venta-form').forEach(ventaForm => {
+                                            const cantidad = parseFloat(ventaForm.querySelector('input[name$="[cantidad]"]').value) || 0;
+                                            const valorUnitario = parseFloat(ventaForm.querySelector('input[name$="[valor_unitario]"]')
+                                                .value) || 0;
+                                            const descuento = parseFloat(ventaForm.querySelector('input[name$="[descuento]"]').value) || 0;
+
+                                            // Calcular subtotal del artículo considerando el descuento
+                                            const subtotalArticulo = (cantidad * valorUnitario) - ( descuento);
+                                            subtotal += subtotalArticulo;
+                                        });
+
+                                        // Mostrar subtotal y total
+                                        document.getElementById('subtotal').value = subtotal.toFixed();
+
+                                        // Calcular total (considerando un porcentaje adicional en caso de crédito)
+                                        const tipoPago = document.getElementById('tipo').value;
+                                        let total = subtotal;
+
+                                        if (tipoPago === 'credito') {
+                                            const porcentajeCredito = parseFloat(document.getElementById('porcentaje_credito').value) || 0;
+                                            total += subtotal * (porcentajeCredito / 100);
+                                        }
+
+                                        document.getElementById('total').value = total.toFixed();
+                                    }
+                                </script>
+
+
+                            </div>
                         </div>
                         <hr>
                         <br>
-                     <!-- Columna 2: Detalles de venta -->
-                     <div class="flex flex-wrap space-x-4">
-                        <div class="mb-4">
-                            <label class="block text-pink-600 text-sm font-bold mb-2" for="codigo">
-                                <i class="fas fa-barcode mr-2"></i>Código
-                            </label>
-                            {{-- <input id="codigo" 
+                        <!-- Columna 2: Detalles de venta -->
+                        <div class="flex flex-wrap space-x-4">
+                            <div class="mb-4">
+                                <label class="block text-pink-600 text-sm font-bold mb-2" for="codigo">
+                                    <i class="fas fa-barcode mr-2"></i>Código
+                                </label>
+                                {{-- <input id="codigo" 
                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
                             type="text" 
                             name="codigo" 
                             required> --}}
-                            <input id="codigo"
-                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                type="text" name="articulos[0][codigo]" onchange="obtenerArticulo2()" required>
+                                <input id="codigo"
+                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                    type="text" name="articulos[0][codigo]" onchange="obtenerArticulo2()" required>
 
-                            <script>
-                                function obtenerArticulo2() {
-                                    var codigo = document.getElementById("codigo").value;
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
-                                    xhr.onreadystatechange = function() {
-                                        if (xhr.readyState == 4 && xhr.status == 200) {
-                                            var response = JSON.parse(xhr.responseText);
-                                            document.getElementById("nombre").value = response.nombre;
-                                            document.getElementById("valor_unitario").value = response.valor_venta;
-                                        }
-                                    };
-                                    xhr.send();
-                                }
-                            </script>
-                        </div>
+                                <script>
+                                    function obtenerArticulo2() {
+                                        var codigo = document.getElementById("codigo").value;
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                                var response = JSON.parse(xhr.responseText);
+                                                document.getElementById("nombre").value = response.nombre;
+                                                document.getElementById("valor_unitario").value = response.valor_venta;
+                                            }
+                                        };
+                                        xhr.send();
+                                    }
+                                </script>
+                            </div>
 
-                        <div class="mb-4">
-                            <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
-                                <i class="fas fa-tag mr-2"></i>Nombre del Artículo
-                            </label>
-                            <input id="nombre"
-                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                type="text" name="nombre" readonly>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad">
-                                <i class="fas fa-boxes mr-2"></i>Cantidad
-                            </label>
-                            {{-- <input class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
+                            <div class="mb-4">
+                                <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_articulo">
+                                    <i class="fas fa-tag mr-2"></i>Nombre del Artículo
+                                </label>
+                                <input id="nombre"
+                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                    type="text" name="nombre" readonly>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad">
+                                    <i class="fas fa-boxes mr-2"></i>Cantidad
+                                </label>
+                                {{-- <input class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
                             type="number" 
                             name="cantidad" 
                             required> --}}
-                            <input
-                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                type="number" name="articulos[0][cantidad]" min="1" required>
+                                <input
+                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                    type="number" name="articulos[0][cantidad]" min="1" required>
 
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label class="block text-pink-600 text-sm font-bold mb-2" for="valor_unitario">
-                                <i class="fas fa-dollar-sign mr-2"></i>Valor Unitario
-                            </label>
-                            {{-- <input
+                            <div class="mb-4">
+                                <label class="block text-pink-600 text-sm font-bold mb-2" for="valor_unitario">
+                                    <i class="fas fa-dollar-sign mr-2"></i>Valor Unitario
+                                </label>
+                                {{-- <input
                                 class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                 type="number" name="valor_unitario" step="0.01" required> --}}
-                            {{-- <input id="valor_unitario"
+                                {{-- <input id="valor_unitario"
                                 class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                 type="number" name="valor_unitario" step="0.01"> --}}
-                            <input
-                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                id="valor_unitario" type="number" name="articulos[0][valor_unitario]"
-                                min="0" step="0.01" required>
+                                <input
+                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                    id="valor_unitario" type="number" name="articulos[0][valor_unitario]"
+                                    min="0" step="0.01" required>
 
-                        </div>
+                            </div>
 
-                        <div class="mb-4">
-                            <label class="block text-pink-600 text-sm font-bold mb-2" for="descuento">
-                                <i class="fas fa-percentage mr-2"></i>Descuento
-                            </label>
-                            {{-- <input
+                            <div class="mb-4">
+                                <label class="block text-pink-600 text-sm font-bold mb-2" for="descuento">
+                                    <i class="fas fa-percentage mr-2"></i>Descuento
+                                </label>
+                                {{-- <input
                                 class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                 type="number" name="descuento" step="0.01"> --}}
-                            <input
-                                class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                type="number" name="articulos[0][descuento]" min="0" step="0.01">
+                                <input
+                                    class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                                    type="number" name="articulos[0][descuento]" min="0" step="0.01">
 
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
 
@@ -510,7 +566,7 @@
             }
         });
 
-        
+
 
         document.getElementById('tipo_venta').addEventListener('change', toggleCreditoFields);
     </script>

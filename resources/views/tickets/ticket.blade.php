@@ -165,6 +165,23 @@
         }
     </style>
 </head>
+@php
+    $subtotal = 0; // Inicializamos el subtotal
+
+    foreach ($articulos as $articulo) {
+        // Calcular el subtotal por artículo
+        $subtotalArticulo = ($articulo->pivot->cantidad * $articulo->pivot->valor_unitario) - $articulo->pivot->descuento;
+        $subtotal += $subtotalArticulo; // Sumar al subtotal general
+    }
+
+    // Calcular el valor del crédito basado en el porcentaje (si es aplicable)
+    $porcentajeCredito = $venta->porcentaje_credito ?? 0; // Si no hay porcentaje, asumimos 0
+    $valorCredito = $venta->valor_total - $subtotal ;
+
+    // Calcular el total final
+    $valorTotal = $subtotal + $valorCredito;
+@endphp
+
 <body>
     <div class="container">
         <div class="header clearfix">
@@ -214,18 +231,19 @@
         <div class="calculations">
             <div class="calculation-row">
                 <span>Subtotal:</span>
-                <span class="valor">${{ number_format($venta->subtotal) }}</span>
+                <span class="valor">${{ number_format($subtotal) }}</span>
             </div>
             <div class="calculation-row">
                 <span>Crédito ({{ $venta->porcentaje_credito }}%):</span>
-                <span class="valor">${{ number_format($venta->valor_credito) }}</span>
+                <span class="valor">${{ number_format($valorCredito) }}</span>
             </div>
             <div class="calculation-row">
                 <span>Total Final:</span>
                 <span class="valor">${{ number_format($venta->valor_total) }}</span>
             </div>
         </div>
-
+      
+        
        
     </div>
 </body>

@@ -76,10 +76,6 @@
             <!-- Aquí va tu tabla actual -->
             @include('ventas.partials.ventas-table')
         </div>
-
-            <div class="mt-6">
-                {{ $ventas->links() }}
-            </div>
        
     </div>
 

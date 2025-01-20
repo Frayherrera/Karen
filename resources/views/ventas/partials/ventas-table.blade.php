@@ -35,17 +35,32 @@
                         <td class="border-t px-4 py-3">{{ ucfirst($venta->tipo) }}</td>
                         <td class="border-t px-4 py-3">${{ number_format($venta->utilidad, 0) }}</td>
                         <td class="border-t px-4 py-3">${{ number_format($venta->valor_total, 0) }}</td>
-                        <td class="border-t px-4 py-3"> <a href="{{ route('ventas.ticket', $venta->id) }}"
+                        <td class="border-t px-4 py-3">
+                            <a href="{{ route('ventas.ticket', $venta->id) }}"
                                 class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded text-sm custom-shadow btn-hover-effect">
-                                <i class="fas fa-receipt mr-1"></i>Ticket </a> <button
+                                <i class="fas fa-receipt mr-1"></i>Ticket
+                            </a>
+                            <button
                                 onclick="cambiarEstado({{ $venta->id }})"
-                                class="ml-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm custom-shadow btn-hover-effect">
-                                Cambiar Estado </button> </td>
+                                class="ml-2 bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded text-sm custom-shadow btn-hover-effect"
+                                @if ($venta->tipo === 'contado') disabled @endif>
+                                Cambiar Estado
+                            </button>
+                        </td>
+                        
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <style>
+        button:disabled {
+    background-color: #d1d5db; /* Gris claro */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+    </style>
     <script>
         function cambiarEstado(id) {
             // Aquí puedes realizar una llamada AJAX para actualizar el estado en el servidor
