@@ -265,7 +265,7 @@
                                 <input
                                     class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                     id="valor_unitario" type="number" name="articulos[0][valor_unitario]"
-                                    min="0" step="0.01" required>
+                                    min="0" step="1" required>
 
                             </div>
 

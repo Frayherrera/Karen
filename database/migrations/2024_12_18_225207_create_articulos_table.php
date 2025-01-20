@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre'); // Nombre del artículo
             $table->text('descripcion')->nullable(); // Descripción opcional
             $table->decimal('valor_costo', 10); // Valor de costo
-            $table->decimal('valor_venta', 10); // Valor de venta
+            $table->integer('valor_venta'); // Valor de venta
             $table->integer('stock')->default(0); // Stock inicial (por defecto 0)
             $table->timestamps(); // Marcas de tiempo (creado y actualizado)
             $table->foreignId('categoria_id')
