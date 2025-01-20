@@ -90,28 +90,45 @@
         });
     </script>
     <script>
-        let typingTimer;
-        const doneTypingInterval = 500; // Tiempo en ms
+       let typingTimer;
+const doneTypingInterval = 500; // Tiempo en ms
+
+document.getElementById('search').addEventListener('input', function() {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(performSearch, doneTypingInterval);
+});
+
+function performSearch() {
+    let searchValue = document.getElementById('search').value;
     
-        document.getElementById('search').addEventListener('input', function() {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(performSearch, doneTypingInterval);
-        });
+    // Remover los ceros iniciales si existen para la búsqueda
+    if (!isNaN(searchValue) && searchValue !== '') {
+        searchValue = parseInt(searchValue, 10).toString();
+    }
     
-        function performSearch() {
-            const searchValue = document.getElementById('search').value;
-            
-            fetch(`{{ route('ventas.index') }}?search=${searchValue}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('ventas-table').innerHTML = html;
-            })
-            .catch(error => console.error('Error:', error));
+    const url = new URL('{{ route('ventas.index') }}');
+    url.searchParams.append('search', searchValue);
+    
+    fetch(url, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
         }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de red');
+        }
+        return response.text();
+    })
+    .then(html => {
+        document.getElementById('ventas-table').innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('ventas-table').innerHTML = 
+            '<div class="text-center text-red-600">Error al cargar los datos. Por favor, intente nuevamente.</div>';
+    });
+}
     </script>
 </body>
 @endsection

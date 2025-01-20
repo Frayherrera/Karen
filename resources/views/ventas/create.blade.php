@@ -26,12 +26,13 @@
                 <i class="fas fa-shopping-cart mr-2"></i>Ver ventas
             </a>
             <div class="flex justify-center items-center gap-4 mb-6">
-                <h1 class="text-4xl font-bold text-center text-pink-600" style="font-family: 'Dancing Script', cursive;">
+                <h1 class="text-4xl font-bold text-center text-pink-600" {{-- style="font-family: 'Dancing Script', cursive;" --}}>
                     FACTURA DE VENTA
+                    <span class="text-4xl font-bold text-pink-600" {{-- style="font-family: 'Dancing Script', cursive;" --}}>
+                        N° {{ str_pad($nextId, 4, '0', STR_PAD_LEFT) }}
+                    </span>
                 </h1>
-                <span class="text-4xl font-bold text-pink-600" style="font-family: 'Dancing Script', cursive;">
-                    N° {{ str_pad($nextId, 5, '0', STR_PAD_LEFT) }}
-                </span>
+               
             </div>
             <form id="ventaForm" action="{{ route('ventas.store') }}" method="POST"
                 class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">

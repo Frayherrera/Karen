@@ -82,13 +82,14 @@
 
         th, td {
             border: 1px solid #fbcfe8; /* Pink-200 */
-            padding: 12px;
+            padding: 4px;
             text-align: left;
+            font-size: 0.9em;
         }
 
         th {
             background-color: #fdf2f8; /* Pink-50 */
-            font-weight: 600;
+            font-weight: 500;
             color: #be185d; /* Pink-700 */
         }
 
@@ -113,6 +114,7 @@
         }
 
         .calculations {
+            text-align: right;
             background-color: #fdf2f8; /* Pink-50 */
             border: 1px solid #fbcfe8; /* Pink-200 */
             padding: 15px;
@@ -187,7 +189,7 @@
         <div class="header clearfix">
             <div class="info-empresa">
                 <h1>FACTURA</h1>
-                <div class="factura-numero">N° {{ str_pad($venta->id, 8, '0', STR_PAD_LEFT) }}</div>
+                <div class="factura-numero">N° {{ str_pad($venta->id, 4, '0', STR_PAD_LEFT) }}</div>
             </div>
             <div class="info-factura">
                 <p><strong>Fecha:</strong> {{ $venta->fecha_venta }}</p>

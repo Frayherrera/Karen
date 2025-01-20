@@ -26,7 +26,7 @@
             <tbody>
                 @foreach ($ventas as $venta)
                     <tr class="hover:bg-pink-50 transition-colors">
-                        <td class="border-t px-4 py-3">{{ $venta->id }}</td>
+                        <td class="border-t px-4 py-3">{{ str_pad($venta->id, 4, '0', STR_PAD_LEFT) }}</td>
                         <td class="border-t px-4 py-3"> <span
                                 class="inline-block w-3 h-3 rounded-full @if ($venta->estado === 'pagado') bg-green-600 @else bg-yellow-300 @endif">
                             </span> </td> <!-- Estado visual -->
