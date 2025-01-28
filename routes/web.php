@@ -39,8 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
     Route::get('/ventas/{id}/ticket', [VentaController::class, 'generarTicket'])->name('ventas.ticket');
+    Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('ventas.destroy');
  
-
     // Ruta para crear una salida (venta)
     Route::get('/salida', function () {
         $articulos = Articulo::all();
@@ -55,14 +55,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/articulos/get', [ArticuloController::class, 'getArticulo'])->name('articulos.get');
     Route::get('/obtener-valor/{id}', [ArticuloController::class, 'obtenerValor']);
 
-
     Route::get('/obtener-articulo/{id}', [ArticuloController::class, 'obtenerArticulo']);
-
 
     Route::get('/obtener-articulo-por-codigo/{codigo}', [ArticuloController::class, 'obtenerArticuloPorCodigo']);
 
     Route::post('/ventas/cambiar-estado/{id}', [VentaController::class, 'cambiarEstado']);
 });
-
 // Rutas de autenticación generadas automáticamente
 require __DIR__ . '/auth.php';

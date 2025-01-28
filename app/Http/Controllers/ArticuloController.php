@@ -78,7 +78,7 @@ class ArticuloController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:articulos,codigo|max:10',
-            'nombre' => 'required|max:15',
+            'nombre' => 'required|max:50',
             'valor_costo' => 'required|numeric|min:0',
             'valor_venta' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
@@ -145,7 +145,7 @@ class ArticuloController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:articulos,codigo,' . $id,
-            'nombre' => 'required|max:15',
+            'nombre' => 'required|max:50',
             'descripcion' => 'nullable|string|max:500',
             'valor_costo' => 'required|numeric|min:0',
             'valor_venta' => 'required|numeric|min:0',

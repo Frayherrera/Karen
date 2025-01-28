@@ -131,6 +131,7 @@
                                         <select
                                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                                             name="porcentaje_credito" id="porcentaje_credito">
+                                            <option value="0">0%</option>
                                             <option value="5">5%</option>
                                             <option value="10">10%</option>
                                             <option value="15">15%</option>

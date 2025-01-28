@@ -78,7 +78,55 @@
         </div>
        
     </div>
+    <script>
+        function confirmarEliminar(id) {
+    Toast.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarVenta(id);
+        }
+    });
+}
 
+function eliminarVenta(id) {
+    fetch(`/ventas/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Toast.fire({
+                icon: 'success',
+                title: 'Venta eliminada correctamente'
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Toast.fire({
+                icon: 'error',
+                title: 'Error al eliminar la venta'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Toast.fire({
+            icon: 'error',
+            title: 'Error al eliminar la venta'
+        });
+    });
+}
+    </script>
     <script>
         // Personalización de SweetAlert2 con tema rosa
         const Toast = Swal.mixin({

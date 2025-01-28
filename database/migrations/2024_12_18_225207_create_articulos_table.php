@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('articulos', function (Blueprint $table) {
             $table->id(); // ID autoincremental
             $table->string('codigo')->unique(); // Código único para el artículo
-            $table->string('nombre'); // Nombre del artículo
+            $table->text('nombre'); // Nombre del artículo
             $table->text('descripcion')->nullable(); // Descripción opcional
             $table->decimal('valor_costo', 10); // Valor de costo
             $table->integer('valor_venta'); // Valor de venta

@@ -31,6 +31,37 @@ class VentaController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Artículo no encontrado.']);
     }
+    public function destroy($id)
+{
+    try {
+        $venta = Venta::findOrFail($id);
+        
+        // Begin transaction
+        \DB::beginTransaction();
+        
+        // Restore stock for each article
+        foreach ($venta->articulos as $articulo) {
+            $pivot = $articulo->pivot;
+            $articulo->stock += $pivot->cantidad;
+            $articulo->save();
+        }
+        
+        // Delete related records in pivot table
+        \DB::table('articulo_venta')->where('venta_id', $id)->delete();
+        
+        // Delete the sale
+        $venta->delete();
+        
+        // Commit transaction
+        \DB::beginTransaction();
+        
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        // Rollback in case of error
+        \DB::rollBack();
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
     public function cambiarEstado($id)
     {
         $venta = Venta::find($id);

@@ -50,7 +50,7 @@
         id="nombre" 
         name="nombre" 
         type="text" 
-        maxlength="15"
+        maxlength="50"
         placeholder="Nombre del artículo" 
         value="{{ old('nombre') }}">
 </div>
