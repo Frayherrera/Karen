@@ -117,9 +117,11 @@ class VentaController extends Controller
         foreach ($request->articulos as $articuloData) {
             $articulo = Articulo::where('codigo', $articuloData['codigo'])->first();
 
-            if ($articulo->stock < $articuloData['cantidad']) {
-                return redirect()->back()->withErrors(['error' => 'Stock insuficiente para el artículo: ' . $articulo->nombre]);
-            }
+          if ($articulo->stock < $articuloData['cantidad']) {
+    return redirect()->back()
+        ->withErrors(['error' => "Stock insuficiente para el artículo: {$articulo->nombre}. Stock disponible: {$articulo->stock}"])
+        ->withInput();
+}
 
             $valor_articulo = $articuloData['cantidad'] * $articuloData['valor_unitario'];
             $valor_articulo -= $articuloData['descuento'] ?? 0;

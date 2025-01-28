@@ -223,9 +223,17 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::where('codigo', $codigo)->first();
         if ($articulo) {
-            return response()->json(['nombre' => $articulo->nombre, 'valor_venta' => $articulo->valor_venta,]);
+            return response()->json([
+                'success' => true,
+                'nombre' => $articulo->nombre, 
+                'valor_venta' => $articulo->valor_venta,
+                'stock' => $articulo->stock
+            ]);
         } else {
-            return response()->json(['error' => 'Artículo no encontrado'], 404);
+            return response()->json([
+                'success' => false,
+                'error' => 'Artículo no encontrado'
+            ], 404);
         }
     }
 }

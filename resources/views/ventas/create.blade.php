@@ -216,19 +216,48 @@
                                     type="text" name="articulos[0][codigo]" onchange="obtenerArticulo2()" required>
 
                                 <script>
-                                    function obtenerArticulo2() {
-                                        var codigo = document.getElementById("codigo").value;
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
-                                        xhr.onreadystatechange = function() {
-                                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                                var response = JSON.parse(xhr.responseText);
-                                                document.getElementById("nombre").value = response.nombre;
-                                                document.getElementById("valor_unitario").value = response.valor_venta;
-                                            }
-                                        };
-                                        xhr.send();
-                                    }
+                                  function obtenerArticulo2() {
+    var codigo = document.getElementById("codigo").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log('Respuesta del servidor:', response);
+            
+            document.getElementById("nombre").value = response.nombre;
+            document.getElementById("valor_unitario").value = response.valor_venta;
+            
+            // Update available stock display
+            document.getElementById("available_stock_0").textContent = `Stock disponible: ${response.stock}`;
+            
+            // Add event listener for quantity validation
+            validateStock(0, response.stock);
+        }
+    };
+    xhr.send();
+}
+function validateStock(index, availableStock) {
+    const quantityInput = document.getElementById(`cantidad_${index}`);
+    const stockMessage = document.getElementById(`stock_message_${index}`);
+    const submitButton = document.querySelector('button[type="submit"]');
+    
+    quantityInput.addEventListener('input', function() {
+        const quantity = parseInt(this.value) || 0;
+        console.log('Cantidad:', quantity, 'Stock disponible:', availableStock); // Para debugging
+        
+        if (quantity > availableStock) {
+            stockMessage.textContent = `¡Error! Solo hay ${availableStock} unidades disponibles`;
+            stockMessage.classList.remove('hidden');
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            stockMessage.classList.add('hidden');
+            submitButton.disabled = false;
+            submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    });
+}
                                 </script>
                             </div>
 
@@ -244,14 +273,15 @@
                                 <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad">
                                     <i class="fas fa-boxes mr-2"></i>Cantidad
                                 </label>
-                                {{-- <input class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300" 
-                            type="number" 
-                            name="cantidad" 
-                            required> --}}
                                 <input
                                     class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                                    type="number" name="articulos[0][cantidad]" min="1" required>
-
+                                    type="number" 
+                                    name="articulos[0][cantidad]" 
+                                    id="cantidad_0" 
+                                    min="1" 
+                                    required>
+                                <span id="stock_message_0" class="text-red-500 text-sm hidden"></span>
+                                <span id="available_stock_0" class="text-gray-500 text-sm"></span>
                             </div>
 
                             <div class="mb-4">
@@ -468,7 +498,7 @@
                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                             type="text" name="articulos[${index}][codigo]" onchange="obtenerArticulo(${index})" required>
                     </div>
-
+                        
                     <div class="mb-4">
                         <label class="block text-pink-600 text-sm font-bold mb-2" for="nombre_${index}">
                             <i class="fas fa-tag mr-2"></i>Nombre del Artículo
@@ -477,14 +507,16 @@
                             class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
                             type="text" name="articulos[${index}][nombre]" readonly>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad_${index}">
-                            <i class="fas fa-boxes mr-2"></i>Cantidad
-                        </label>
-                        <input
-                            class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
-                            type="number" name="articulos[${index}][cantidad]" min="1" required>
-                    </div>
+                     <div class="mb-4">
+                    <label class="block text-pink-600 text-sm font-bold mb-2" for="cantidad_${index}">
+                        <i class="fas fa-boxes mr-2"></i>Cantidad
+                    </label>
+                    <input
+                        class="shadow-sm appearance-none border border-pink-200 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition duration-300"
+                        type="number" name="articulos[${index}][cantidad]" id="cantidad_${index}" min="1" required>
+                    <span id="stock_message_${index}" class="text-red-500 text-sm hidden">Cantidad excede el stock disponible</span>
+                    <span id="available_stock_${index}" class="text-gray-500 text-sm"></span>
+                </div>
 
                     <div class="mb-4">
                         <label class="block text-pink-600 text-sm font-bold mb-2" for="valor_unitario_${index}">
@@ -518,18 +550,25 @@
 
 
         function obtenerArticulo(index) {
-            var codigo = document.getElementById("codigo_" + index).value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    document.getElementById("nombre_" + index).value = response.nombre;
-                    document.getElementById("valor_unitario_" + index).value = response.valor_venta;
-                }
-            };
-            xhr.send();
+    var codigo = document.getElementById("codigo_" + index).value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/obtener-articulo-por-codigo/" + codigo, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            document.getElementById("nombre_" + index).value = response.nombre;
+            document.getElementById("valor_unitario_" + index).value = response.valor_venta;
+            
+            // Update available stock display
+            document.getElementById(`available_stock_${index}`).textContent = `Stock disponible: ${response.stock}`;
+            
+            // Add event listener for quantity validation
+            document.getElementById(`cantidad_${index}`).setAttribute("max", response.stock);
+            validateStock(index, response.stock);
         }
+    };
+    xhr.send();
+}
     </script>
     <script>
         document.getElementById('ventaForm').addEventListener('submit', async function(e) {
